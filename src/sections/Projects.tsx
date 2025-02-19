@@ -1,6 +1,6 @@
-import darkSaasLandingPage from "@/assets/images/dark-saas-landing-page.png";
-import lightSaasLandingPage from "@/assets/images/light-saas-landing-page.png";
-import aiStartupLandingPage from "@/assets/images/ai-startup-landing-page.png";
+import darkSaasLandingPage from "@/assets/images/car01.jpg";
+import lightSaasLandingPage from "@/assets/images/car02.jpg";
+import aiStartupLandingPage from "@/assets/images/car03.jpg";
 import Link from "next/link";
 import Image, { StaticImageData } from "next/image";
 import CheckCircleIcon from "@/assets/icons/check-circle.svg";
@@ -57,12 +57,13 @@ const portfolioProjects: Project[] = [
     link: "https://youtu.be/Z7I5uSRHMHg",
     image: aiStartupLandingPage,
   },
+  
 ];
 
 export const ProjectsSection = () => {
   return (
     <section id="projects" className="pb-16 lg:py-24">
-      <div className="container">
+      <div className="container sm:max-w-3xl md:max-w-4xl">
         <div className="flex justify-center">
           <p className="uppercase font-semibold tracking-widest from-emerald-300 to-sky-400 text-transparent bg-clip-text text-center">
             Real-world Results
