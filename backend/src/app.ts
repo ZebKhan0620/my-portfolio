@@ -9,13 +9,27 @@ import blogRoutes from './routes/blogRoutes';
 import projectRoutes from './routes/projectRoutes';
 import contactRoutes from './routes/contactRoutes';
 import adviceRoutes from './routes/adviceRoutes';
+import healthRoutes from './routes/healthRoutes';
 
 const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+
+// CORS setup
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'https://your-portfolio-site.vercel.app', // Add your Vercel domain
+    /\.vercel\.app$/, // Allow all vercel.app subdomains
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  maxAge: 86400 // 24 hours
+};
+
+app.use(cors(corsOptions));
 app.use(helmet());
 // @ts-ignore
 app.use(compression());
@@ -28,11 +42,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/advice', adviceRoutes);
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'ok' });
-});
+app.use('/api/health', healthRoutes);
 
 // Error handling
 app.use(notFound);

@@ -11,6 +11,12 @@ if (typeof window !== 'undefined') {
   baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002/api';
 }
 
+// For local development, use the local API endpoint
+// For production, use the hosted backend URL
+if (process.env.NODE_ENV === 'production') {
+  baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://portfolio-backend-production.up.railway.app/api';
+}
+
 // Create axios instance with default config
 const api = axios.create({
   baseURL,
