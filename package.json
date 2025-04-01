@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "NEXT_DISABLE_ESLINT=1 next build",
+    "build": "node build.js",
     "start": "next start",
     "lint": "next lint"
   },
@@ -16,6 +16,7 @@
     "clsx": "^2.1.1",
     "compression": "^1.8.0",
     "framer-motion": "^11.3.21",
+    "helmet": "^8.1.0",
     "lodash": "^4.17.21",
     "motion": "^12.4.2",
     "next": "^14.2.24",

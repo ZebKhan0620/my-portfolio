@@ -2,6 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
+  "ignoreCommand": "bash vercel-ignore-build.sh",
   "rewrites": [
     {
       "source": "/api/:path*",
