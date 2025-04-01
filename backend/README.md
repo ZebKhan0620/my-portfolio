@@ -1,67 +1,82 @@
-# Portfolio Backend API
+# Portfolio Backend
 
-This is the backend API for the portfolio website. It provides endpoints for projects, blog posts, contact form submissions, and the advice wall.
+A production-ready backend API for a portfolio website. Built with Node.js, Express, TypeScript, and SQLite.
 
-## Tech Stack
+## Features
 
-- **Node.js & Express**: Server framework
-- **TypeScript**: Type safety and better developer experience
-- **SQLite**: Simple file-based database
-- **Sequelize**: ORM for database interactions
-- **Railway**: Cloud deployment platform
+- Contact form submission with email notifications
+- Project management system
+- Blog post management
+- Content moderation
+- Rate limiting and security features
+- Production-ready with optimized configuration
 
-## Local Development
+## Requirements
 
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Start the development server: `npm run dev`
-4. Server will run on `http://localhost:3002`
+- Node.js 16+
+- npm
 
-## API Endpoints
+## Deployment Instructions
 
-- **GET /api/projects**: Get all projects
-- **GET /api/blogs**: Get all blog posts
-- **POST /api/contact**: Submit contact form
-- **GET /api/advice**: Get advice entries
-- **POST /api/advice**: Add a new advice entry
-- **GET /api/health**: Health check endpoint
+### Quick Start
 
-## Deployment to Railway
+1. Clone this repository
+2. Install dependencies:
+   ```
+   npm install --omit=dev
+   ```
+3. Prepare for production:
+   ```
+   npm run prod:prepare
+   ```
+4. Configure your environment variables in `.env.production`
+5. Start the server:
+   ```
+   npm run prod:start
+   ```
+   
+Alternatively, use the provided batch scripts:
+```
+.\prep-production.bat  # Prepare for production
+.\start-production.bat # Start the server
+```
 
-### Manual Deployment
+### Environment Variables
 
-1. Create a Railway account at [railway.app](https://railway.app)
-2. Install the Railway CLI: `npm i -g @railway/cli`
-3. Login to Railway: `railway login`
-4. Initialize your project: `railway init`
-5. Link to your GitHub repository: `railway link`
-6. Deploy your application: `railway up`
-
-### Automatic Deployment via GitHub
-
-1. Push your code to GitHub
-2. Connect your GitHub repository to Railway
-3. Railway will automatically deploy when you push to the main branch
-
-## Environment Variables
-
-Create a `.env` file in the root directory with the following variables:
+Create a `.env.production` file with the following variables:
 
 ```
-PORT=3002
+# Server Configuration
+PORT=3001
 NODE_ENV=production
-DATABASE_PATH=/tmp/portfolio.sqlite
-SMTP_HOST=your-smtp-host
+
+# Email Configuration
+SMTP_HOST=smtp.example.com
 SMTP_PORT=465
-SMTP_USER=your-email
-SMTP_PASS=your-password
-SMTP_FROM=your-email
-FRONTEND_URL=https://your-frontend-url.vercel.app
+SMTP_USER=your_email@example.com
+SMTP_PASS=your_password
+SMTP_FROM=your_email@example.com
+ADMIN_EMAIL=admin@yourdomain.com
+
+# Frontend URL for CORS
+FRONTEND_URL=http://localhost:3000
 ```
 
-## Important Notes About Railway Deployment
+### API Endpoints
 
-- Railway provides a transient filesystem where `/tmp` is writable
-- SQLite database is configured to use `/tmp/portfolio.sqlite`
-- This means data **will not persist** between deployments
-- For true persistence, consider migrating to Railway's PostgreSQL add-on 
+- `GET /api/health` - Health check endpoint
+- `GET /api/projects` - Get all projects
+- `GET /api/projects/:id` - Get project by ID
+- `POST /api/projects` - Create a new project
+- `PUT /api/projects/:id` - Update a project
+- `DELETE /api/projects/:id` - Delete a project
+- `GET /api/blogs` - Get all blog posts
+- `GET /api/blogs/:id` - Get blog post by ID
+- `POST /api/blogs` - Create a new blog post
+- `PUT /api/blogs/:id` - Update a blog post
+- `DELETE /api/blogs/:id` - Delete a blog post
+- `POST /api/contact` - Submit contact form
+
+## Database
+
+The application uses SQLite for data storage. Database files are stored in the `data` directory. 

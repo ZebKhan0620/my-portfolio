@@ -1,21 +1,7 @@
 import axios from 'axios';
 
 // Determine the base URL based on environment
-let baseURL = '';
-
-if (typeof window !== 'undefined') {
-  // Client-side code
-  baseURL = process.env.NEXT_PUBLIC_API_URL || '/api';
-} else {
-  // Server-side code
-  baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002/api';
-}
-
-// For local development, use the local API endpoint
-// For production, use the hosted backend URL
-if (process.env.NODE_ENV === 'production') {
-  baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://portfolio-backend-production.up.railway.app/api';
-}
+const baseURL = process.env.NEXT_PUBLIC_API_URL || '/api';
 
 // Create axios instance with default config
 const api = axios.create({

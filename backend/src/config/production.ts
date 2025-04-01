@@ -6,7 +6,7 @@ export const productionConfig = {
   // Database settings
   database: {
     dialect: 'sqlite',
-    storage: process.env.DATABASE_PATH || '/tmp/portfolio.sqlite',
+    storage: './data/portfolio.sqlite',
     logging: false,
     pool: {
       max: 5,

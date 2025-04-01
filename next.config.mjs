@@ -13,11 +13,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: [
-      'localhost', 
-      'portfolio-backend-production.up.railway.app',
-      'railway.app'
-    ],
+    domains: ['localhost'],
   },
   webpack(config) {
     // Grab the existing rule that handles SVG imports
