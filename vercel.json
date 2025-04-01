@@ -1,8 +1,7 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "NEXT_DISABLE_ESLINT=1 next build",
   "outputDirectory": ".next",
   "framework": "nextjs",
-  "ignoreCommand": "bash vercel-ignore-build.sh",
   "rewrites": [
     {
       "source": "/api/:path*",

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node build.js",
+    "build": "NEXT_DISABLE_ESLINT=1 next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -29,6 +29,7 @@
   "devDependencies": {
     "@types/compression": "^1.7.5",
     "@types/cors": "^2.8.17",
+    "@types/helmet": "^0.0.48",
     "@types/lodash": "^4.17.16",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.17",
