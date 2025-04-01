@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Portfolio Website with Advice Wall
 
-## Getting Started
+A modern, responsive portfolio website built with Next.js, featuring an interactive Advice Wall where visitors can leave feedback, advice, and suggestions.
 
-First, run the development server:
+## Features
+
+- Interactive Advice Wall with multiple display styles (Cards, LCD, Neon, Flip, Ticker)
+- Project showcase
+- Contact form
+- Responsive design
+- Serverless API routes
+
+## Technologies Used
+
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Axios
+
+## Deployment to Vercel
+
+This project is optimized for deployment to Vercel. Follow these steps to deploy:
+
+1. **Push your code to GitHub**
+
+   First, create a repository on GitHub and push your code:
+
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git remote add origin <your-github-repo-url>
+   git push -u origin main
+   ```
+
+2. **Deploy to Vercel**
+
+   - Sign up or log in to [Vercel](https://vercel.com)
+   - Click "New Project"
+   - Import your GitHub repository
+   - Keep the default settings (Vercel will automatically detect Next.js)
+   - Click "Deploy"
+
+   Vercel will automatically build and deploy your application, including the serverless API endpoints.
+
+3. **Environment Variables (Optional)**
+
+   If needed, you can add environment variables in the Vercel dashboard:
+   - Go to your project settings
+   - Navigate to the "Environment Variables" section
+   - Add any required variables (none are strictly required for this project)
+
+## Local Development
+
+To run the project locally:
 
 ```bash
+# Install dependencies
+npm install
+
+# Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API Endpoints
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- `GET /api/advice` - Get all advice entries
+- `POST /api/advice` - Submit a new advice entry
+- `GET /api/projects` - Get all projects
+- `POST /api/contact` - Submit a contact form message

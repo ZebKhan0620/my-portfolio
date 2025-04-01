@@ -4,12 +4,101 @@
 
 
 @layer base {
+    /* Improve focus styles for keyboard navigation */
+    :focus-visible {
+        @apply outline-none ring-2 ring-emerald-300 ring-offset-2 ring-offset-gray-900;
+    }
+    
+    /* Add smooth scrolling to the entire page, but respect user preferences */
+    @media (prefers-reduced-motion: no-preference) {
+        html {
+            scroll-behavior: smooth;
+        }
+    }
+    
+    /* Navigation styles */
     .nav-item {
         @apply px-4 py-1.5 rounded-full text-white/70 text-sm font-semibold hover:bg-white/10 hover:text-white transition duration-300;
     }
 
+    /* Hero ring design */
     .hero-ring {
-        @apply absolute inset-0 border-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  rounded-full border-emerald-300/5 shadow-[0_0_80px_inset] shadow-emerald-300/5;
+        @apply absolute inset-0 border-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-emerald-300/5 shadow-[0_0_80px_inset] shadow-emerald-300/5;
+    }
+    
+    /* Make images non-draggable by default */
+    img {
+        @apply select-none;
+    }
+    
+    /* Accessibility skip links */
+    .skip-to-content {
+        @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white text-gray-900 px-4 py-2 rounded-lg z-50;
+    }
+}
+
+
+@layer components {
+    /* Typing cursor animation */
+    .typing-cursor {
+        @apply inline-block w-1 h-5 ml-0.5 bg-emerald-300 animate-pulse;
+    }
+    
+    /* Animation pausing based on user preferences */
+    @media (prefers-reduced-motion: reduce) {
+        .animation-safe {
+            @apply animate-none !important;
+            transition: none !important;
+        }
+    }
+    
+    /* Enhanced button hover effects */
+    .btn-hover-effect {
+        @apply relative overflow-hidden;
+    }
+    
+    .btn-hover-effect::after {
+        @apply content-[''] absolute inset-0 bg-white/0 transition-all duration-300;
+    }
+    
+    .btn-hover-effect:hover::after {
+        @apply bg-white/10;
+    }
+    
+    /* Animation prefers-reduced-motion utility for global usage */
+    .motion-safe {
+        @apply transition-all;
+    }
+    
+    /* Ensure orbit animations run smoothly */
+    .animate-orbit-clockwise,
+    .animate-orbit-counter {
+        animation-timing-function: linear !important;
+        animation-iteration-count: infinite !important;
+        animation-fill-mode: forwards !important;
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+        .motion-safe {
+            @apply transition-none animate-none;
+        }
+        
+        /* Also stop orbit animations for reduced motion */
+        .animate-orbit-clockwise,
+        .animate-orbit-counter,
+        .animate-float,
+        .animate-ping,
+        .animate-ping-large,
+        .animate-pulse,
+        .animate-move-left,
+        .animate-move-right {
+            animation-play-state: paused !important;
+        }
+    }
+    
+    /* Focus indicator for interactive elements */
+    .focus-indicator {
+        @apply focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 focus-visible:outline-none;
     }
 }
 
@@ -17,5 +106,36 @@
 @layer utilities {
     .container {
         @apply lg:max-w-5xl;
+    }
+    
+    /* Text gradient utility */
+    .text-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-sky-400;
+    }
+    
+    /* Scroll fading effect at edges */
+    .scroll-fade-edges {
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+    
+    /* Improved easing functions as utilities */
+    .ease-elastic {
+        animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .ease-bounce {
+        animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    .ease-smooth {
+        animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+    }
+    
+    .ease-sharp {
+        animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    
+    .ease-gentle {
+        animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
     }
 }
