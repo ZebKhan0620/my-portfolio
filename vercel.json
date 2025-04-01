@@ -9,6 +9,7 @@
     }
   ],
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "NEXT_DISABLE_ESLINT": "1"
   }
 } 

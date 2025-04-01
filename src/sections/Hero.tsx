@@ -46,19 +46,22 @@ export const HeroSection = () => {
   // Get orbit configurations - this helps with responsive designs
   const orbitConfigs = getResponsiveOrbitConfigs();
   
-  // Setup intersection observer for lazy loading
+  // IntersectionObserver for lazy loading orbits
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Load larger screen orbits after base orbits
+          // Start loading large elements 1 second after orbits are first visible
           setTimeout(() => {
             setLargeElementsLoaded(true);
-          }, 300);
-          // Once loaded, disconnect the observer
-          if (orbitContainerRef.current) {
-            observer.unobserve(orbitContainerRef.current);
+          }, 1000);
+          
+          // Capture the current ref value
+          const currentRef = orbitContainerRef.current;
+          
+          if (currentRef) {
+            observer.unobserve(currentRef);
           }
         }
       },
@@ -68,13 +71,16 @@ export const HeroSection = () => {
       }
     );
     
-    if (orbitContainerRef.current) {
-      observer.observe(orbitContainerRef.current);
+    // Capture the current ref value
+    const currentRef = orbitContainerRef.current;
+    
+    if (currentRef) {
+      observer.observe(currentRef);
     }
     
     return () => {
-      if (orbitContainerRef.current) {
-        observer.unobserve(orbitContainerRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
