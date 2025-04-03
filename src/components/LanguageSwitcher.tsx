@@ -11,12 +11,12 @@ export default function LanguageSwitcher() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   
-  // Create refs for each option item - fixed to avoid using hooks inside callbacks
-  const optionRefs = useRef<React.RefObject<HTMLDivElement>[]>(
-    Array(locales.length)
-      .fill(null)
-      .map(() => useRef<HTMLDivElement>(null))
-  );
+  // Create individual refs for each option
+  const option0Ref = useRef<HTMLDivElement>(null);
+  const option1Ref = useRef<HTMLDivElement>(null);
+  
+  // Store refs in an array for easier access
+  const optionRefs = useRef<React.RefObject<HTMLDivElement>[]>([option0Ref, option1Ref]);
   
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -94,6 +94,15 @@ export default function LanguageSwitcher() {
   const currentLocaleInfo = getLocaleInfo(locale as Locale);
   const switcherId = 'language-switcher';
   const menuId = 'language-menu';
+
+  // Function to get the correct ref for each option
+  const getRefForIndex = (index: number): React.RefObject<HTMLDivElement> => {
+    if (index < optionRefs.current.length) {
+      return optionRefs.current[index];
+    }
+    // Fallback to the first ref if index is out of bounds
+    return optionRefs.current[0];
+  };
   
   return (
     <div className="relative" ref={switcherRef}>
@@ -155,7 +164,7 @@ export default function LanguageSwitcher() {
                 <div
                   key={localeOption}
                   id={optionId}
-                  ref={optionRefs.current[index]}
+                  ref={getRefForIndex(index)}
                   onClick={() => handleLocaleChange(localeOption as Locale)}
                   onKeyDown={(e) => handleKeyDown(e, index)}
                   className={`block px-3 sm:px-4 py-1.5 sm:py-2 text-2xs xs:text-xs sm:text-sm hover:bg-gray-700/60 transition-colors cursor-pointer ${
