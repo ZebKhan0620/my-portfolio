@@ -9,14 +9,6 @@ export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const switcherRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-  
-  // Create individual refs for each option
-  const option0Ref = useRef<HTMLDivElement>(null);
-  const option1Ref = useRef<HTMLDivElement>(null);
-  
-  // Store refs in an array for easier access
-  const optionRefs = useRef<React.RefObject<HTMLDivElement>[]>([option0Ref, option1Ref]);
   
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -40,9 +32,14 @@ export default function LanguageSwitcher() {
         e.preventDefault();
         setIsOpen(true);
         
-        // Focus the first/last option
-        const targetIndex = e.key === 'ArrowDown' ? 0 : locales.length - 1;
-        optionRefs.current[targetIndex]?.current?.focus();
+        // Focus the first/last option using DOM querying instead of refs
+        setTimeout(() => {
+          const options = document.querySelectorAll('[role="option"]');
+          const targetIndex = e.key === 'ArrowDown' ? 0 : options.length - 1;
+          if (options[targetIndex]) {
+            (options[targetIndex] as HTMLElement).focus();
+          }
+        }, 10);
       } else if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         setIsOpen(!isOpen);
@@ -56,14 +53,16 @@ export default function LanguageSwitcher() {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       handleLocaleChange(locales[index] as Locale);
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
-      const nextIndex = (index + 1) % locales.length;
-      optionRefs.current[nextIndex]?.current?.focus();
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      const prevIndex = (index - 1 + locales.length) % locales.length;
-      optionRefs.current[prevIndex]?.current?.focus();
+      const options = document.querySelectorAll('[role="option"]');
+      const nextIndex = e.key === 'ArrowDown' 
+        ? (index + 1) % options.length 
+        : (index - 1 + options.length) % options.length;
+      
+      if (options[nextIndex]) {
+        (options[nextIndex] as HTMLElement).focus();
+      }
     } else if (e.key === 'Escape') {
       e.preventDefault();
       setIsOpen(false);
@@ -94,15 +93,6 @@ export default function LanguageSwitcher() {
   const currentLocaleInfo = getLocaleInfo(locale as Locale);
   const switcherId = 'language-switcher';
   const menuId = 'language-menu';
-
-  // Function to get the correct ref for each option
-  const getRefForIndex = (index: number): React.RefObject<HTMLDivElement> => {
-    if (index < optionRefs.current.length) {
-      return optionRefs.current[index];
-    }
-    // Fallback to the first ref if index is out of bounds
-    return optionRefs.current[0];
-  };
   
   return (
     <div className="relative" ref={switcherRef}>
@@ -144,7 +134,6 @@ export default function LanguageSwitcher() {
       {isOpen && (
         <div 
           id={menuId}
-          ref={menuRef}
           className="absolute right-0 mt-1 sm:mt-1 md:mt-2 w-32 sm:w-36 md:w-40 bg-gray-800/95 backdrop-blur-md rounded-lg shadow-lg border border-gray-700/50 overflow-hidden z-50"
           role="listbox"
           aria-labelledby={switcherId}
@@ -164,7 +153,6 @@ export default function LanguageSwitcher() {
                 <div
                   key={localeOption}
                   id={optionId}
-                  ref={getRefForIndex(index)}
                   onClick={() => handleLocaleChange(localeOption as Locale)}
                   onKeyDown={(e) => handleKeyDown(e, index)}
                   className={`block px-3 sm:px-4 py-1.5 sm:py-2 text-2xs xs:text-xs sm:text-sm hover:bg-gray-700/60 transition-colors cursor-pointer ${
