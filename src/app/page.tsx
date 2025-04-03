@@ -76,7 +76,7 @@ function detectLanguageFromHeader(): string {
 /**
  * Root page that redirects to the appropriate language page
  */
-export default function RootPage() {
+export default async function RootPage() {
   const preferredLocale = detectLanguageFromHeader();
   logger.info('Redirecting to language page', { preferredLocale });
   
@@ -87,7 +87,7 @@ export default function RootPage() {
   return null;
 }
 
-export function Home() {
+export async function Home() {
   return (
     <div className="relative">
       {/* Skip link for keyboard users to bypass navigation */}

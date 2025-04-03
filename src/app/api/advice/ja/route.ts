@@ -1,5 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
+import { createLogger } from '@/lib/logging';
+
+// Create a logger for Japanese advice API
+const logger = createLogger('ja-advice-api');
 
 export interface AdviceEntry {
   _id: string;
@@ -72,38 +76,57 @@ const sampleAdvice: AdviceEntry[] = [
 // In-memory storage for development
 let adviceStore: AdviceEntry[] = [...sampleAdvice];
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === 'GET') {
-    return res.status(200).json({ success: true, data: adviceStore });
-  } 
-  
-  if (req.method === 'POST') {
-    try {
-      const { name, message, role = '' } = req.body;
-      
-      if (!name || !message) {
-        return res.status(400).json({ success: false, error: '名前とメッセージは必須です' });
-      }
-      
-      const newAdvice: AdviceEntry = {
-        _id: uuidv4(),
-        name,
-        message,
-        role,
-        timestamp: Date.now(),
-      };
-      
-      adviceStore.unshift(newAdvice); // Add to beginning of array
-      
-      return res.status(201).json({ success: true, data: newAdvice });
-    } catch (error) {
-      console.error('Error creating advice:', error);
-      return res.status(500).json({ success: false, error: 'リクエスト処理中にエラーが発生しました' });
-    }
+// GET handler to retrieve all Japanese advice
+export async function GET() {
+  try {
+    logger.info('Successfully retrieved Japanese advice entries');
+    return NextResponse.json({ success: true, data: adviceStore });
+  } catch (error) {
+    logger.error('Error fetching Japanese advice', error);
+    return NextResponse.json(
+      { success: false, error: 'リクエスト処理中にエラーが発生しました' },
+      { status: 500 }
+    );
   }
-  
-  return res.status(405).json({ success: false, error: '許可されていないメソッドです' });
+}
+
+// POST handler to create new Japanese advice
+export async function POST(request: Request) {
+  try {
+    logger.info('Processing new Japanese advice submission');
+    const body = await request.json();
+    
+    const { name, message, role = '' } = body;
+    
+    // Validate required fields
+    if (!name?.trim() || !message?.trim()) {
+      logger.warn('Validation failed: Missing required fields');
+      return NextResponse.json(
+        { success: false, error: '名前とメッセージは必須です' },
+        { status: 400 }
+      );
+    }
+    
+    const newAdvice: AdviceEntry = {
+      _id: uuidv4(),
+      name: name.trim(),
+      message: message.trim(),
+      role: role?.trim() || '',
+      timestamp: Date.now(),
+    };
+    
+    adviceStore.unshift(newAdvice); // Add to beginning of array
+    logger.info('Successfully created new Japanese advice entry');
+    
+    return NextResponse.json({ 
+      success: true, 
+      data: newAdvice 
+    }, { status: 201 });
+  } catch (error) {
+    logger.error('Error creating Japanese advice', error);
+    return NextResponse.json(
+      { success: false, error: 'リクエスト処理中にエラーが発生しました' },
+      { status: 500 }
+    );
+  }
 } 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useAdminAuth from '@/hooks/useAdminAuth';
 import Link from 'next/link';
 import Head from 'next/head';
@@ -36,11 +36,8 @@ export default function AdminAdvicePage() {
       setLoading(true);
       setError(null);
       
-      const adminKey = localStorage.getItem('adminKey');
       const response = await fetch('/api/admin/advice', {
-        headers: {
-          'x-admin-key': adminKey || '',
-        },
+        credentials: 'include',
       });
       
       if (!response.ok) {
@@ -67,12 +64,9 @@ export default function AdminAdvicePage() {
     
     setDeleteLoading(true);
     try {
-      const adminKey = localStorage.getItem('adminKey');
       const response = await fetch(`/api/admin/advice?id=${entryToDelete._id}`, {
         method: 'DELETE',
-        headers: {
-          'x-admin-key': adminKey || '',
-        },
+        credentials: 'include',
       });
 
       if (!response.ok) {

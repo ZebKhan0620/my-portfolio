@@ -42,7 +42,22 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  webpack(config) {
+  webpack(config, { isServer }) {
+    // Increase memory limit for webpack
+    config.performance = {
+      ...config.performance,
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000,
+      hints: 'warning',
+    };
+
+    // Handle JSON files more robustly
+    config.module.rules.push({
+      test: /\.json$/,
+      type: 'javascript/auto',
+      use: ['json-loader'],
+    });
+
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.(".svg")

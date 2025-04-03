@@ -1,3 +1,5 @@
+'use client';
+
 import React, { ComponentType, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Namespace } from './translationPreloader';
