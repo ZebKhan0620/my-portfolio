@@ -3,11 +3,18 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { getLocaleFromCookie } from '@/lib/i18n';
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [userLocale, setUserLocale] = useState('en');
+  
+  useEffect(() => {
+    // Get the user's preferred locale for the "Back to Portfolio" link
+    setUserLocale(getLocaleFromCookie());
+  }, []);
 
   // Check for existing login
   useEffect(() => {
@@ -53,15 +60,13 @@ export default function AdminLoginPage() {
         throw new Error(data.error || 'Login failed');
       }
       
-      // Store admin key in localStorage for API requests
-      localStorage.setItem('adminKey', password);
-      
       // Show brief success message
       setPassword('');
       setIsLoading(false);
 
       // Redirect to admin dashboard with a small delay for better UX
       setTimeout(() => {
+        // Use the non-localized admin path to avoid issues with i18n routing
         window.location.href = '/admin';
       }, 300);
     } catch (err) {
@@ -79,7 +84,7 @@ export default function AdminLoginPage() {
       <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-4">
         {/* Back to Portfolio button */}
         <Link 
-          href="/" 
+          href={`/${userLocale}`}
           className="fixed top-4 left-4 flex items-center bg-gray-800/70 hover:bg-gray-700/80 text-white px-3 py-2 rounded-lg shadow-lg border border-gray-700/50 transition-colors"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">

@@ -1,14 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import compression from 'compression';
 import { configureSecurityMiddleware } from './middleware/security';
 import { errorHandler } from './middleware/errorHandler';
 import { notFound } from './middleware/notFound';
-import blogRoutes from './routes/blogRoutes';
-import projectRoutes from './routes/projectRoutes';
+import { compressionMiddleware } from './middleware/compression';
 import contactRoutes from './routes/contactRoutes';
 import adviceRoutes from './routes/adviceRoutes';
+import visitorRoutes from './routes/visitorRoutes';
+import faqRoutes from './routes/faqRoutes';
 
 const app = express();
 
@@ -17,17 +17,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
-// @ts-ignore
-app.use(compression());
+app.use(compressionMiddleware);
 
 // Security middleware
 configureSecurityMiddleware(app);
 
 // Routes
-app.use('/api/projects', projectRoutes);
-app.use('/api/blogs', blogRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/advice', adviceRoutes);
+app.use('/api/visitors', visitorRoutes);
+app.use('/api/faq', faqRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

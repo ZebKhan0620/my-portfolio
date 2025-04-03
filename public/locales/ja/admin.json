@@ -1,0 +1,46 @@
+{
+  "dashboard": {
+    "title": "管理ダッシュボード",
+    "welcome": "管理パネルへようこそ",
+    "summary": "ここでサイトのコンテンツや設定を管理できます",
+    "quickStats": "クイック統計",
+    "totalUsers": "ユーザー総数",
+    "totalPosts": "投稿総数",
+    "recentActivity": "最近のアクティビティ"
+  },
+  "users": {
+    "title": "ユーザー管理",
+    "addNew": "新規ユーザー追加",
+    "viewAll": "全ユーザー表示",
+    "search": "ユーザー検索"
+  },
+  "content": {
+    "title": "コンテンツ管理",
+    "posts": "投稿",
+    "pages": "ページ",
+    "media": "メディアライブラリ"
+  },
+  "settings": {
+    "title": "サイト設定",
+    "general": "一般設定",
+    "appearance": "外観",
+    "security": "セキュリティ"
+  },
+  "login": {
+    "title": "管理者ログイン",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "submit": "ログイン",
+    "remember": "ログイン情報を保存",
+    "forgot": "パスワードをお忘れですか？",
+    "unauthorized": "このエリアへのアクセス権限がありません"
+  },
+  "actions": {
+    "edit": "編集",
+    "delete": "削除",
+    "view": "表示",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "confirm": "確認"
+  }
+} 

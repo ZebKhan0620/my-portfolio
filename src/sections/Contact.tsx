@@ -5,6 +5,7 @@ import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import contactService from '@/services/contactService';
 import { MapPin } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ export const ContactSection = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
+  const { t } = useLanguage();
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -43,7 +45,7 @@ export const ContactSection = () => {
       }, 5000);
     } catch (error) {
       setIsSubmitting(false);
-      setErrorMessage('Failed to send message. Please try again later.');
+      setErrorMessage(t('contact.form.error'));
       console.error('Contact form submission error:', error);
       
       // Hide error message after 5 seconds
@@ -65,7 +67,7 @@ export const ContactSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-sky-400">connect</span>
+            {t('contact.title.firstPart')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-sky-400">{t('contact.title.highlight')}</span>
           </motion.h2>
           <motion.p 
             className="mt-2 xs:mt-3 sm:mt-4 text-white/70 max-w-xl mx-auto text-xs xs:text-sm sm:text-base lg:text-lg"
@@ -74,7 +76,7 @@ export const ContactSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Ready to transform your ideas into reality? Let's discuss how we can collaborate to create something amazing together.
+            {t('contact.subtitle')}
           </motion.p>
         </div>
         
@@ -99,8 +101,8 @@ export const ContactSection = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 xs:gap-4 sm:gap-6 lg:gap-8">
                   {/* Left column - Contact form */}
                   <div className="lg:col-span-7">
-                    <h3 className="text-lg xs:text-xl sm:text-2xl font-serif mb-2 text-white">Get in Touch</h3>
-                    <p className="text-white/60 mb-3 xs:mb-4 sm:mb-6 text-xs xs:text-sm sm:text-base">Fill out the form and I'll get back to you soon</p>
+                    <h3 className="text-lg xs:text-xl sm:text-2xl font-serif mb-2 text-white">{t('contact.form.title')}</h3>
+                    <p className="text-white/60 mb-3 xs:mb-4 sm:mb-6 text-xs xs:text-sm sm:text-base">{t('contact.form.subtitle')}</p>
                     
                     {submitSuccess ? (
                       <motion.div 
@@ -115,14 +117,14 @@ export const ContactSection = () => {
                               <path d="M20 6L9 17L4 12" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           </div>
-                          <h4 className="text-base xs:text-lg sm:text-xl font-semibold text-white mb-1 xs:mb-2">Message Sent!</h4>
-                          <p className="text-white/70 text-xs xs:text-sm sm:text-base">Thanks for reaching out. I'll get back to you shortly.</p>
+                          <h4 className="text-base xs:text-lg sm:text-xl font-semibold text-white mb-1 xs:mb-2">{t('contact.form.success.title')}</h4>
+                          <p className="text-white/70 text-xs xs:text-sm sm:text-base">{t('contact.form.success.message')}</p>
                         </div>
                       </motion.div>
                     ) : (
                       <form ref={formRef} onSubmit={handleSubmit} className="space-y-2 xs:space-y-3 sm:space-y-4">
                         <div>
-                          <label htmlFor="name" className="block text-white/80 text-xs xs:text-sm font-medium mb-1">Name</label>
+                          <label htmlFor="name" className="block text-white/80 text-xs xs:text-sm font-medium mb-1">{t('contact.form.name.label')}</label>
                           <input 
                             type="text" 
                             id="name" 
@@ -131,12 +133,12 @@ export const ContactSection = () => {
                             onChange={handleChange}
                             required
                             className="w-full px-3 xs:px-4 py-2 bg-white/5 border border-white/10 rounded-lg xs:rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400/40 focus:border-transparent text-white text-xs xs:text-sm sm:text-base transition-all duration-200"
-                            placeholder="Your name"
+                            placeholder={t('contact.form.name.placeholder')}
                           />
                         </div>
                         
                         <div>
-                          <label htmlFor="email" className="block text-white/80 text-xs xs:text-sm font-medium mb-1">Email</label>
+                          <label htmlFor="email" className="block text-white/80 text-xs xs:text-sm font-medium mb-1">{t('contact.form.email.label')}</label>
                           <input 
                             type="email" 
                             id="email" 
@@ -145,12 +147,12 @@ export const ContactSection = () => {
                             onChange={handleChange}
                             required
                             className="w-full px-3 xs:px-4 py-2 bg-white/5 border border-white/10 rounded-lg xs:rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400/40 focus:border-transparent text-white text-xs xs:text-sm sm:text-base transition-all duration-200"
-                            placeholder="your.email@example.com"
+                            placeholder={t('contact.form.email.placeholder')}
                           />
                         </div>
                         
                         <div>
-                          <label htmlFor="message" className="block text-white/80 text-xs xs:text-sm font-medium mb-1">Message</label>
+                          <label htmlFor="message" className="block text-white/80 text-xs xs:text-sm font-medium mb-1">{t('contact.form.message.label')}</label>
                           <textarea 
                             id="message" 
                             name="message"
@@ -159,7 +161,7 @@ export const ContactSection = () => {
                             required
                             rows={4}
                             className="w-full px-3 xs:px-4 py-2 bg-white/5 border border-white/10 rounded-lg xs:rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400/40 focus:border-transparent text-white text-xs xs:text-sm sm:text-base resize-none transition-all duration-200"
-                            placeholder="Tell me about your project or inquiry..."
+                            placeholder={t('contact.form.message.placeholder')}
                           ></textarea>
                         </div>
                         
@@ -178,11 +180,11 @@ export const ContactSection = () => {
                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                               </svg>
-                              Sending Message...
+                              {t('contact.form.button.sending')}
                             </>
                           ) : (
                             <>
-                              Send Message
+                              {t('contact.form.button.submit')}
                               <svg className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 24 24" fill="none">
                                 <path d="M13.75 6.75L19.25 12L13.75 17.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                                 <path d="M19 12H4.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -205,7 +207,7 @@ export const ContactSection = () => {
                                 <line x1="12" y1="8" x2="12" y2="12" />
                                 <line x1="12" y1="16" x2="12.01" y2="16" />
                               </svg>
-                              <span>{errorMessage}</span>
+                              <span>{t('contact.form.error')}</span>
                             </div>
                           </motion.div>
                         )}
@@ -216,7 +218,7 @@ export const ContactSection = () => {
                   {/* Right column - Contact info */}
                   <div className="lg:col-span-5">
                     <div className="bg-white/5 backdrop-blur-sm rounded-lg xs:rounded-xl sm:rounded-2xl p-3 xs:p-4 sm:p-6 h-full flex flex-col">
-                      <h3 className="text-lg xs:text-xl sm:text-2xl font-serif mb-3 xs:mb-4 sm:mb-5 text-white">Contact Details</h3>
+                      <h3 className="text-lg xs:text-xl sm:text-2xl font-serif mb-3 xs:mb-4 sm:mb-5 text-white">{t('contact.details.title')}</h3>
                       
                       <div className="space-y-3 xs:space-y-4 sm:space-y-6 flex-1">
                         {/* Email item */}
@@ -234,12 +236,12 @@ export const ContactSection = () => {
                               </svg>
                             </div>
                             <div>
-                              <h4 className="text-sm xs:text-base sm:text-lg font-medium text-white mb-1">Email</h4>
+                              <h4 className="text-sm xs:text-base sm:text-lg font-medium text-white mb-1">{t('contact.details.email.title')}</h4>
                               <a 
-                                href="mailto:zebkhan0620@gmail.com" 
+                                href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@yourdomain.com'}`} 
                                 className="text-white/70 hover:text-emerald-300 transition-colors duration-300 flex items-center gap-1 group-hover:underline text-xs xs:text-sm sm:text-base"
                               >
-                                zebkhan0620@gmail.com
+                                {process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@yourdomain.com'}
                               </a>
                             </div>
                           </div>
@@ -260,7 +262,7 @@ export const ContactSection = () => {
                               </svg>
                             </div>
                             <div>
-                              <h4 className="text-sm xs:text-base sm:text-lg font-medium text-white mb-1">GitHub</h4>
+                              <h4 className="text-sm xs:text-base sm:text-lg font-medium text-white mb-1">{t('contact.details.github.title')}</h4>
                               <a 
                                 href="https://github.com/ZebKhan0620" 
                                 target="_blank" 
@@ -287,29 +289,29 @@ export const ContactSection = () => {
                               <MapPin className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-emerald-400" />
                             </div>
                             <div>
-                              <h4 className="text-sm xs:text-base sm:text-lg font-medium text-white mb-2">Location</h4>
+                              <h4 className="text-sm xs:text-base sm:text-lg font-medium text-white mb-2">{t('contact.details.location.title')}</h4>
                               <div className="space-y-2 xs:space-y-3">
                                 {/* Location with icon */}
                                 <div className="flex items-center gap-2 xs:gap-3 bg-white/5 rounded-lg p-2 xs:p-2.5">
                                   <MapPin className="h-4 w-4 xs:h-5 xs:w-5 text-emerald-400" />
-                                  <span className="text-sm xs:text-base font-medium text-white">HAL TOKYO College</span>
+                                  <span className="text-sm xs:text-base font-medium text-white">{t('contact.details.location.place')}</span>
                                 </div>
                                 
                                 {/* Status badges in a more compact layout */}
                                 <div className="flex flex-wrap items-center gap-1.5 xs:gap-2">
                                   <div className="flex items-center gap-1">
                                     <div className="w-1 h-1 xs:w-1.5 xs:h-1.5 rounded-full bg-emerald-400"></div>
-                                    <span className="text-[10px] xs:text-xs text-white/80">Status:</span>
+                                    <span className="text-[10px] xs:text-xs text-white/80">{t('contact.details.status.label')}:</span>
                                   </div>
                                   <div className="flex flex-wrap gap-1 xs:gap-1.5">
                                     <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 xs:px-2.5 xs:py-1 text-[10px] xs:text-xs font-medium text-emerald-400 border border-emerald-500/20">
-                                      Student Developer
+                                      {t('contact.details.status.badge1')}
                                     </span>
                                     <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 xs:px-2.5 xs:py-1 text-[10px] xs:text-xs font-medium text-emerald-400 border border-emerald-500/20">
-                                      Learning Full-stack
+                                      {t('contact.details.status.badge2')}
                                     </span>
                                     <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 xs:px-2.5 xs:py-1 text-[10px] xs:text-xs font-medium text-emerald-400 border border-emerald-500/20">
-                                      Open to Internships
+                                      {t('contact.details.status.badge3')}
                                     </span>
                                   </div>
                                 </div>
@@ -327,16 +329,16 @@ export const ContactSection = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.3, delay: 0.4 }}
                       >
-                        <h4 className="text-sm xs:text-base sm:text-lg font-medium text-white mb-2">Available for</h4>
+                        <h4 className="text-sm xs:text-base sm:text-lg font-medium text-white mb-2">{t('contact.details.available.title')}</h4>
                         <div className="flex flex-wrap gap-1.5 xs:gap-2">
                           <span className="px-2 py-0.5 xs:px-2.5 xs:py-1 bg-gradient-to-r from-emerald-400/10 to-sky-400/10 rounded-full text-white font-medium text-[10px] xs:text-xs sm:text-sm">
-                            Full-time Positions
+                            {t('contact.details.available.tag1')}
                           </span>
                           <span className="px-2 py-0.5 xs:px-2.5 xs:py-1 bg-gradient-to-r from-emerald-400/10 to-sky-400/10 rounded-full text-white font-medium text-[10px] xs:text-xs sm:text-sm">
-                            Full-stack Development
+                            {t('contact.details.available.tag2')}
                           </span>
                           <span className="px-2 py-0.5 xs:px-2.5 xs:py-1 bg-gradient-to-r from-emerald-400/10 to-sky-400/10 rounded-full text-white font-medium text-[10px] xs:text-xs sm:text-sm">
-                            Frontend Development
+                            {t('contact.details.available.tag3')}
                           </span>
                         </div>
                       </motion.div>
@@ -356,14 +358,14 @@ export const ContactSection = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <div className="text-center sm:text-left">
-              <h3 className="text-sm xs:text-base sm:text-lg lg:text-xl font-serif text-white">Ready to start a project?</h3>
-              <p className="text-white/70 mt-1 max-w-md text-[10px] xs:text-xs sm:text-sm">Let's discuss how I can help bring your vision to life.</p>
+              <h3 className="text-sm xs:text-base sm:text-lg lg:text-xl font-serif text-white">{t('contact.quickBar.title')}</h3>
+              <p className="text-white/70 mt-1 max-w-md text-[10px] xs:text-xs sm:text-sm">{t('contact.quickBar.subtitle')}</p>
             </div>
             <a 
-              href="mailto:zebkhan0620@gmail.com" 
+              href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@yourdomain.com'}`} 
               className="inline-flex items-center gap-2 px-3 xs:px-4 sm:px-5 py-1.5 xs:py-2 sm:py-2.5 rounded-lg xs:rounded-xl bg-gradient-to-r from-emerald-400 to-sky-400 text-gray-900 font-semibold shadow-lg hover:shadow-emerald-500/20 transform transition-all duration-300 hover:-translate-y-1 group text-xs xs:text-sm sm:text-base"
             >
-              Email Directly
+              {t('contact.quickBar.button')}
               <ArrowUpRightIcon className="size-2.5 xs:size-3 sm:size-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
             </a>
           </motion.div>

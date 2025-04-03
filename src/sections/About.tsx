@@ -7,6 +7,7 @@ import CheckCircleIcon from "@/assets/icons/check-circle.svg";
 import BookImage from "@/assets/images/book-cover.png";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   FaHtml5,
   FaCss3,
@@ -155,6 +156,7 @@ export const AboutSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const constraintRef = useRef<HTMLDivElement>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const { t } = useLanguage();
   
   // Check for reduced motion preference
   useEffect(() => {
@@ -175,24 +177,24 @@ export const AboutSection = () => {
     <section className="py-8 sm:py-10 md:py-12 lg:py-14" ref={sectionRef}>
       <div className="container mx-auto px-3 xs:px-4 sm:px-6 md:px-8 max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-[1280px]">
         <SectionHeader
-          title="About Me"
-          eyebrow="About Me"
-          description="I'm Zeb Khan, a full-stack developer from Pakistan currently studying at HAL Tokyo. I'm passionate about building user-friendly web applications and continuously expanding my skills in both frontend and backend technologies."
+          title={t('about.title')}
+          eyebrow={t('about.eyebrow')}
+          description={t('about.description')}
         />
         
         {/* Modern Bento Grid Layout */}
         <div className="mt-6 sm:mt-8 grid grid-cols-1 md:grid-cols-6 gap-3 xs:gap-4">
           {/* About Me Card - Spans 2 columns */}
           <Card className="md:col-span-2 p-4 sm:p-5 bg-gradient-to-br from-gray-800/50 to-gray-900/30">
-            <h3 className="text-lg xs:text-xl font-semibold text-white mb-3 sm:mb-4">My Journey</h3>
+            <h3 className="text-lg xs:text-xl font-semibold text-white mb-3 sm:mb-4">{t('about.journey.title')}</h3>
             <div className="space-y-3 sm:space-y-4">
               <div className="flex items-start gap-2 xs:gap-3 group">
                 <div className="bg-gradient-to-r from-sky-400 to-emerald-400 p-1.5 xs:p-2 rounded-full flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300">
                   <FaReact className="size-4 xs:size-5 text-gray-900" />
                 </div>
                 <div>
-                  <p className="font-medium text-white">Front-end Developer</p>
-                  <p className="text-sm text-white/70">Creating intuitive and responsive user interfaces</p>
+                  <p className="font-medium text-white">{t('about.journey.developer')}</p>
+                  <p className="text-sm text-white/70">{t('about.journey.developerDescription')}</p>
                 </div>
               </div>
               <div className="flex items-start gap-2 xs:gap-3 group">
@@ -200,8 +202,8 @@ export const AboutSection = () => {
                   <FaBook className="size-4 xs:size-5 text-gray-900" />
                 </div>
                 <div>
-                  <p className="font-medium text-white">HAL Tokyo College</p>
-                  <p className="text-sm text-white/70">Planning Award Winner - Car Marketplace Project</p>
+                  <p className="font-medium text-white">{t('about.journey.college')}</p>
+                  <p className="text-sm text-white/70">{t('about.journey.award')}</p>
                 </div>
               </div>
               <div className="flex items-start gap-2 xs:gap-3 group">
@@ -209,8 +211,8 @@ export const AboutSection = () => {
                   <FaGithub className="size-4 xs:size-5 text-gray-900" />
                 </div>
                 <div>
-                  <p className="font-medium text-white">Technical Innovation</p>
-                  <p className="text-sm text-white/70">Bridging powerful features with exceptional UX</p>
+                  <p className="font-medium text-white">{t('about.journey.innovation')}</p>
+                  <p className="text-sm text-white/70">{t('about.journey.innovationDescription')}</p>
                 </div>
               </div>
             </div>
@@ -233,23 +235,23 @@ export const AboutSection = () => {
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-300 to-sky-400 -z-10"></div>
               <Image 
                 src={SmileMemoji} 
-                alt="My memoji" 
+                alt={t('about.location.memojiAlt')} 
                 className="size-full p-1" 
               />
             </div>
             <div className="absolute bottom-4 left-4 right-4 bg-black/70 backdrop-blur-sm rounded-lg p-2 text-center">
-              <p className="text-white text-sm xs:text-base font-medium">HAL TOKYO College</p>
+              <p className="text-white text-sm xs:text-base font-medium">{t('about.location.college')}</p>
             </div>
           </Card>
 
           {/* Philosophy Card - Spans 2 columns */}
           <Card className="md:col-span-2 p-4 sm:p-5 bg-gradient-to-br from-gray-800/50 to-gray-900/30">
-            <h3 className="text-lg xs:text-xl font-semibold text-white mb-3 sm:mb-4">My Philosophy</h3>
-            <p className="text-white/80 mb-3 sm:mb-4">I believe in staying calm under pressure and approaching problems methodically. I never give up when facing challenges and value consistency in my growth journey.</p>
+            <h3 className="text-lg xs:text-xl font-semibold text-white mb-3 sm:mb-4">{t('about.philosophy.title')}</h3>
+            <p className="text-white/80 mb-3 sm:mb-4">{t('about.philosophy.description')}</p>
             <div className="w-20 xs:w-24 mx-auto">
               <Image
                 src={BookImage}
-                alt="Book Cover"
+                alt={t('about.philosophy.bookAlt')}
                 priority
                 className="focus-indicator"
               />
@@ -259,8 +261,8 @@ export const AboutSection = () => {
           {/* Toolbox Section - Full Width */}
           <Card className="md:col-span-6 overflow-hidden bg-gradient-to-br from-gray-800/50 to-gray-900/30">
             <div className="p-4 sm:p-5">
-              <h3 className="text-lg xs:text-xl font-semibold text-white mb-1 sm:mb-2">My Toolbox</h3>
-              <p className="text-white/60 text-sm">Technologies and skills I use to create digital experiences.</p>
+              <h3 className="text-lg xs:text-xl font-semibold text-white mb-1 sm:mb-2">{t('about.toolbox.title')}</h3>
+              <p className="text-white/60 text-sm">{t('about.toolbox.description')}</p>
             </div>
             <div className="motion-safe overflow-hidden pb-3 sm:pb-4">
               <ToolboxItems 
@@ -279,13 +281,13 @@ export const AboutSection = () => {
           {/* Hobbies Section - Full Width */}
           <Card className="md:col-span-6 min-h-[240px] xs:min-h-[260px] sm:min-h-[280px] p-0 bg-gradient-to-br from-gray-800/50 to-gray-900/30">
             <div className="p-4 sm:p-5">
-              <h3 className="text-lg xs:text-xl font-semibold text-white mb-1 sm:mb-2">My Hobbies</h3>
-              <p className="text-white/60 text-sm">When I'm not coding, here's what I enjoy doing.</p>
+              <h3 className="text-lg xs:text-xl font-semibold text-white mb-1 sm:mb-2">{t('about.hobbies.title')}</h3>
+              <p className="text-white/60 text-sm">{t('about.hobbies.description')}</p>
             </div>
             <div 
               className="relative h-[200px] xs:h-[220px] sm:h-[240px]" 
               ref={constraintRef}
-              aria-label="Interactive hobby bubbles that can be dragged"
+              aria-label={t('about.hobbies.interactiveBubbles')}
             >
               {Hobbies.map((hobby, index) => {
                 // Determine which size key to use based on screen dimensions
@@ -316,10 +318,10 @@ export const AboutSection = () => {
                     whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
                     tabIndex={0}
                     role="button"
-                    aria-label={`${hobby.name} hobby bubble, draggable`}
+                    aria-label={`${t(`about.hobbies.${hobby.name.toLowerCase()}`)} ${t('about.hobbies.bubbleLabel')}`}
                   >
                     <span className="mr-1 xs:mr-1.5">{hobby.iconType}</span>
-                    <span className="text-gray-900 font-medium">{hobby.name}</span>
+                    <span className="text-gray-900 font-medium">{t(`about.hobbies.${hobby.name.toLowerCase()}`)}</span>
                   </motion.div>
                 );
               })}
@@ -328,7 +330,7 @@ export const AboutSection = () => {
 
           {/* Career Goals Card - Spans 4 columns */}
           <Card className="md:col-span-4 p-4 xs:p-5 sm:p-6 bg-gradient-to-br from-gray-800/50 to-gray-900/30">
-            <h3 className="text-lg xs:text-xl font-semibold text-sky-400 mb-4 sm:mb-6">Career Goals</h3>
+            <h3 className="text-lg xs:text-xl font-semibold text-sky-400 mb-4 sm:mb-6">{t('about.goals.title')}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               {/* Short-term Goals */}
               <div>
@@ -338,7 +340,7 @@ export const AboutSection = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h4 className="font-medium text-white">Short-term Goals</h4>
+                  <h4 className="font-medium text-white">{t('about.goals.shortTerm')}</h4>
                 </div>
                 <ul className="space-y-3 sm:space-y-4">
                   <li className="flex items-start gap-2 xs:gap-3">
@@ -346,8 +348,8 @@ export const AboutSection = () => {
                       <CheckCircleIcon className="size-3.5 xs:size-4 text-gray-900" />
                     </div>
                     <div>
-                      <span className="text-white/90 block">Complete studies at HAL Tokyo</span>
-                      <span className="text-white/50 text-sm">Current Focus</span>
+                      <span className="text-white/90 block">{t('about.goals.goal1')}</span>
+                      <span className="text-white/50 text-sm">{t('about.goals.goal1Description')}</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-2 xs:gap-3">
@@ -355,8 +357,8 @@ export const AboutSection = () => {
                       <CheckCircleIcon className="size-3.5 xs:size-4 text-gray-900" />
                     </div>
                     <div>
-                      <span className="text-white/90 block">Master frontend development skills</span>
-                      <span className="text-white/50 text-sm">Technical Growth</span>
+                      <span className="text-white/90 block">{t('about.goals.goal2')}</span>
+                      <span className="text-white/50 text-sm">{t('about.goals.goal2Description')}</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-2 xs:gap-3">
@@ -364,8 +366,8 @@ export const AboutSection = () => {
                       <CheckCircleIcon className="size-3.5 xs:size-4 text-gray-900" />
                     </div>
                     <div>
-                      <span className="text-white/90 block">Work as a full-stack developer</span>
-                      <span className="text-white/50 text-sm">Career Transition</span>
+                      <span className="text-white/90 block">{t('about.goals.goal3')}</span>
+                      <span className="text-white/50 text-sm">{t('about.goals.goal3Description')}</span>
                     </div>
                   </li>
                 </ul>
@@ -379,7 +381,7 @@ export const AboutSection = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <h4 className="font-medium text-white">Long-term Goals</h4>
+                  <h4 className="font-medium text-white">{t('about.goals.longTerm')}</h4>
                 </div>
                 <ul className="space-y-3 sm:space-y-4">
                   <li className="flex items-start gap-2 xs:gap-3">
@@ -387,8 +389,8 @@ export const AboutSection = () => {
                       <CheckCircleIcon className="size-3.5 xs:size-4 text-gray-900" />
                     </div>
                     <div>
-                      <span className="text-white/90 block">Focus on frontend skills for 3-4 years</span>
-                      <span className="text-white/50 text-sm">Specialization Phase</span>
+                      <span className="text-white/90 block">{t('about.goals.goal4')}</span>
+                      <span className="text-white/50 text-sm">{t('about.goals.goal4Description')}</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-2 xs:gap-3">
@@ -396,8 +398,8 @@ export const AboutSection = () => {
                       <CheckCircleIcon className="size-3.5 xs:size-4 text-gray-900" />
                     </div>
                     <div>
-                      <span className="text-white/90 block">Transition to deeper backend development</span>
-                      <span className="text-white/50 text-sm">Skill Expansion</span>
+                      <span className="text-white/90 block">{t('about.goals.goal5')}</span>
+                      <span className="text-white/50 text-sm">{t('about.goals.goal5Description')}</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-2 xs:gap-3">
@@ -405,8 +407,8 @@ export const AboutSection = () => {
                       <CheckCircleIcon className="size-3.5 xs:size-4 text-gray-900" />
                     </div>
                     <div>
-                      <span className="text-white/90 block">Become a well-rounded full-stack developer</span>
-                      <span className="text-white/50 text-sm">Career Milestone</span>
+                      <span className="text-white/90 block">{t('about.goals.goal6')}</span>
+                      <span className="text-white/50 text-sm">{t('about.goals.goal6Description')}</span>
                     </div>
                   </li>
                 </ul>
@@ -420,7 +422,7 @@ export const AboutSection = () => {
               <div className="bg-gradient-to-r from-emerald-300 to-sky-400 p-1.5 rounded-full">
                 <StarIcon className="size-4 xs:size-5 text-gray-900" />
               </div>
-              <h3 className="text-lg xs:text-xl font-semibold text-white">Achievements</h3>
+              <h3 className="text-lg xs:text-xl font-semibold text-white">{t('about.achievements.title')}</h3>
             </div>
             <div className="space-y-3 sm:space-y-4">
               {/* IELTS Achievement */}
@@ -430,11 +432,11 @@ export const AboutSection = () => {
                     <StarIcon className="size-4 xs:size-5 text-gray-900" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-base xs:text-lg text-white">IELTS Academic</h4>
+                    <h4 className="font-semibold text-base xs:text-lg text-white">{t('about.achievements.ielts')}</h4>
                     <div className="mt-1">
-                      <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded-full text-xs xs:text-sm">Score: 6.5</span>
+                      <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded-full text-xs xs:text-sm">{t('about.achievements.ieltsScore')}</span>
                     </div>
-                    <p className="text-white/70 mt-1 xs:mt-2 text-xs xs:text-sm">International English Language Testing System</p>
+                    <p className="text-white/70 mt-1 xs:mt-2 text-xs xs:text-sm">{t('about.achievements.ieltsDescription')}</p>
                   </div>
                 </div>
               </div>
@@ -446,13 +448,13 @@ export const AboutSection = () => {
                     <StarIcon className="size-4 xs:size-5 text-gray-900" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-base xs:text-lg text-white">HAL Tokyo Award</h4>
+                    <h4 className="font-semibold text-base xs:text-lg text-white">{t('about.achievements.halAward')}</h4>
                     <div className="mt-1 flex flex-wrap items-center gap-1.5 xs:gap-2">
-                      <span className="px-2 py-0.5 bg-amber-500/20 text-amber-300 rounded-full text-xs xs:text-sm">Planning Award (企画力賞受賞)</span>
+                      <span className="px-2 py-0.5 bg-amber-500/20 text-amber-300 rounded-full text-xs xs:text-sm">{t('about.achievements.halAwardType')}</span>
                       <button 
                         className="inline-flex items-center gap-1 xs:gap-1.5 px-2 xs:px-3 py-0.5 bg-amber-500/20 text-amber-300 rounded-full text-xs xs:text-sm hover:bg-amber-500/30 transition-colors group/cert relative"
                       >
-                        <span>View Certificate</span>
+                        <span>{t('about.achievements.viewCertificate')}</span>
                         <svg className="w-3 h-3 xs:w-3.5 xs:h-3.5" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19V6.413L11.707 13.707L10.293 12.293L17.587 5H13V3H21Z" />
                         </svg>
@@ -461,7 +463,7 @@ export const AboutSection = () => {
                           <div className="bg-gray-900 border border-gray-700 p-1.5 rounded-lg shadow-xl">
                             <Image 
                               src={AchievementImage} 
-                              alt="HAL Tokyo Award Certificate" 
+                              alt={t('about.achievements.certificateAlt')} 
                               width={240}
                               height={320}
                               className="rounded-md object-contain max-h-[180px] xs:max-h-[220px] w-auto"
@@ -472,7 +474,7 @@ export const AboutSection = () => {
                       </button>
                     </div>
                     <p className="text-white/60 text-xs xs:text-sm mt-1 xs:mt-2">
-                      Recognized for exceptional planning and conceptual design skills
+                      {t('about.achievements.awardDescription')}
                     </p>
                   </div>
                 </div>

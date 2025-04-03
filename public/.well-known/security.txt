@@ -1,0 +1,7 @@
+# Security Policy
+Contact: mailto:zebkhan0620@gmail.com
+Expires: 2025-12-31T23:59:59Z
+Preferred-Languages: en, ja
+Canonical: https://your-production-domain.com/.well-known/security.txt
+Policy: https://your-production-domain.com/security-policy
+Hiring: https://your-production-domain.com/careers 

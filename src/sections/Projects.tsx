@@ -15,8 +15,10 @@ import AchievementImage from "@/assets/images/HAL東京進級制作展 企画力
 import CafeDeParisScreenshot from "@/assets/images/Cafe-de-Paris.png";
 import MayuScreenshot from "@/assets/images/MAYU.png";
 import CarMarketplaceScreenshot from "@/assets/images/Car-Marketplace.png";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { X as XIcon } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface ProjectResult {
   title: string;
@@ -24,9 +26,12 @@ interface ProjectResult {
 
 interface Project {
   company: string;
+  companyJa?: string;
   year: string;
   title: string;
+  titleJa?: string;
   results: ProjectResult[];
+  resultsJa?: ProjectResult[];
   link: string;
   image: StaticImageData | string;
   repoLink?: string;
@@ -35,20 +40,30 @@ interface Project {
     image: StaticImageData;
   };
   description?: string;
+  descriptionJa?: string;
 }
 
 const portfolioProjects: Project[] = [
   {
     company: "HAL Tokyo",
+    companyJa: "HAL東京",
     year: "2025",
     title: "Car Marketplace",
+    titleJa: "Car Marketplace",
     results: [
       { title: "Complete user registration with email confirmation and 2FA security" },
       { title: "Advanced AJAX filters and detailed car listings system" },
       { title: "Meeting scheduling with favorites/bookmarking features" },
-      { title: "Presentation-ready mode with guided tour for demonstrations" },
+      { title: "Presentation-ready mode with guided tour through zoom by request" },
+    ],
+    resultsJa: [
+      { title: "メール確認と二要素認証セキュリティによる完全なユーザー登録" },
+      { title: "高度なAJAXフィルターと詳細な車両リスティングシステム" },
+      { title: "お気に入り/ブックマーク機能付きの会議スケジューリング" },
+      { title: "リクエストに応じてズームによるガイド付きツアーのプレゼンテーションレディモード" },
     ],
     description: "A comprehensive automotive marketplace with advanced filtering, secure user authentication, and intuitive booking system. This full-stack application combines modern frontend technologies with robust backend services for a seamless car shopping experience.",
+    descriptionJa: "高度なフィルタリング、安全なユーザー認証、直感的な予約システムを備えた包括的な自動車マーケットプレイス。このフルスタックアプリケーションは、シームレスな車両ショッピング体験のために最新のフロントエンド技術と堅牢なバックエンドサービスを組み合わせています。",
     link: "#", // Replace with demo link if available
     repoLink: "#", // Replace with repo link if available
     image: CarMarketplaceScreenshot, // Using the new full screenshot
@@ -59,37 +74,63 @@ const portfolioProjects: Project[] = [
   },
   {
     company: "Personal Project",
+    companyJa: "個人プロジェクト",
     year: "2024",
-    title: "Cafe de Paris",
+    title: "Cafe・de・Paris",
+    titleJa: "Cafe・de・Paris",
     results: [
       { title: "WebGL-powered dynamic mesh gradient backgrounds with custom shaders" },
       { title: "Advanced GSAP animations with parallax scrolling and ScrollTrigger" },
       { title: "Interactive UI with physics-based spring animations and element tracking" },
       { title: "Bilingual Japanese/French menu with 3D card hover effects and marquee animations" },
     ],
+    resultsJa: [
+      { title: "カスタムシェーダーを使用したWebGLパワードの動的メッシュグラデーション背景" },
+      { title: "パララックススクロールとScrollTriggerを使用した高度なGSAPアニメーション" },
+      { title: "物理ベースのスプリングアニメーションと要素トラッキングによるインタラクティブなUI" },
+      { title: "3Dカードホバーエフェクトとマーキーアニメーションを備えた日本語/フランス語のバイリンガルメニュー" },
+    ],
     description: "An immersive digital experience for a French-Japanese fusion café featuring cutting-edge WebGL effects and advanced animations. The site combines artistic design with technical excellence to create a memorable, interactive showcase of the café's unique atmosphere.",
+    descriptionJa: "最先端のWebGLエフェクトと高度なアニメーションを特徴とする、フランス・日本のフュージョンカフェのための没入型デジタル体験。このサイトは、カフェのユニークな雰囲気の記憶に残るインタラクティブなショーケースを作成するために、芸術的なデザインと技術的な卓越性を組み合わせています。",
     link: "https://zebkhan0620.github.io/cafe-de-paris/",
     repoLink: "https://github.com/ZebKhan0620/cafe-de-paris",
     image: CafeDeParisScreenshot,
   },
   {
     company: "Team Project",
+    companyJa: "チームプロジェクト",
     year: "2024",
-    title: "Mayu",
+    title: "MAYU",
+    titleJa: "MAYU",
     results: [
       { title: "Interactive web magazine with slideshow featuring preloading, autoplay, and touch gestures" },
       { title: "Advanced scroll-based UI with IntersectionObserver for dynamic header transforms" },
       { title: "Context-aware menu system with animated transitions and accessibility support" },
       { title: "Modular JavaScript architecture with specialized controllers for UI components" },
     ],
+    resultsJa: [
+      { title: "プリロード、自動再生、タッチジェスチャーを備えたスライドショー付きのインタラクティブなウェブマガジン" },
+      { title: "動的ヘッダー変換のためのIntersectionObserverを使用した高度なスクロールベースのUI" },
+      { title: "アニメーションされた遷移とアクセシビリティサポートを備えたコンテキスト対応メニューシステム" },
+      { title: "UIコンポーネント用の特殊コントローラーを備えたモジュラーJavaScriptアーキテクチャ" },
+    ],
     description: "A modern, interactive digital magazine with smooth transitions, dynamic hover effects, and sophisticated navigation systems. Features article carousels, scroll-based content switching, touch gestures, and carefully crafted accessibility considerations.",
+    descriptionJa: "滑らかな遷移、動的なホバーエフェクト、洗練されたナビゲーションシステムを備えた現代的でインタラクティブなデジタルマガジン。記事カルーセル、スクロールベースのコンテンツ切り替え、タッチジェスチャー、細心の注意を払ったアクセシビリティの考慮事項を特徴としています。",
     link: "https://deep-shinjuku.github.io/Mayu",
     repoLink: "https://github.com/Deep-Shinjuku/Mayu",
     image: MayuScreenshot,
   },
 ];
 
-const DesktopPreview = ({ project }: { project: Project }) => {
+const DesktopPreview = ({ 
+  project, 
+  t, 
+  locale 
+}: { 
+  project: Project; 
+  t: (key: string, params?: Record<string, string | number>) => string;
+  locale: string;
+}) => {
   const [isHovering, setIsHovering] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const hasValidUrl = project.link && project.link !== "#";
@@ -193,12 +234,12 @@ const DesktopPreview = ({ project }: { project: Project }) => {
                       </svg>
                     </div>
                     <p className="text-white font-medium text-sm sm:text-base md:text-lg lg:text-xl bg-gradient-to-r from-emerald-300 to-sky-400 bg-clip-text text-transparent">
-                      Hover to explore
+                      {t('projects.hoverToExplore')}
                     </p>
                     <div className="mt-1 sm:mt-2 flex items-center justify-center">
                       <span className="inline-block w-1 h-1 sm:w-1.5 sm:h-1.5 bg-emerald-400 rounded-full animate-pulse mr-1 sm:mr-1.5"></span>
                       <p className="text-[10px] sm:text-xs md:text-sm text-gray-300">
-                        {hasValidUrl ? 'Website preview' : 'Project showcase'}
+                        {hasValidUrl ? t('projects.websitePreview') : t('projects.projectShowcase')}
                       </p>
                     </div>
                   </div>
@@ -244,14 +285,14 @@ const DesktopPreview = ({ project }: { project: Project }) => {
         <div className="absolute -bottom-1 right-1.5 sm:right-3 md:right-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[8px] sm:text-[10px] md:text-xs font-bold px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-0.5 md:py-1 rounded-full shadow-lg transform -rotate-2">
           <span className="flex items-center">
             <span className="w-0.5 h-0.5 sm:w-1 sm:h-1 md:w-1.5 md:h-1.5 bg-white rounded-full mr-0.5 sm:mr-1 animate-pulse"></span>
-            Live Website
+            {t('projects.liveWebsite')}
           </span>
         </div>
       ) : (
         <div className="absolute -bottom-1 right-1.5 sm:right-3 md:right-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[8px] sm:text-[10px] md:text-xs font-bold px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-0.5 md:py-1 rounded-full shadow-lg transform -rotate-2">
           <span className="flex items-center">
             <span className="w-0.5 h-0.5 sm:w-1 sm:h-1 md:w-1.5 md:h-1.5 bg-white rounded-full mr-0.5 sm:mr-1"></span>
-            Coming Soon
+            {t('projects.comingSoon')}
           </span>
         </div>
       )}
@@ -259,10 +300,43 @@ const DesktopPreview = ({ project }: { project: Project }) => {
   );
 };
 
+// Helper function to get localized field value
+const getLocalizedField = (project: Project, field: keyof Project, jaField: keyof Project, locale: string): string => {
+  if (locale === 'ja' && project[jaField]) {
+    return project[jaField] as string;
+  }
+  
+  return project[field] as string;
+};
+
+// Function to get localized results
+const getLocalizedResults = (project: Project, locale: string) => {
+  if (locale === 'ja' && project.resultsJa) {
+    return project.resultsJa;
+  }
+  
+  return project.results;
+};
+
 export default function ProjectsSection() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const { t, locale } = useLanguage();
   
-  // Close modal when clicking outside
+  // Debug element to display current locale
+  const [showDebug, setShowDebug] = useState(false);
+  
+  useEffect(() => {
+    const toggleDebug = (e: KeyboardEvent) => {
+      if (e.key === 'd' && e.altKey) {
+        setShowDebug(prev => !prev);
+      }
+    };
+    
+    window.addEventListener('keydown', toggleDebug);
+    return () => window.removeEventListener('keydown', toggleDebug);
+  }, []);
+  
+  // Close modal when clicking outside or pressing Escape
   const modalRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -272,22 +346,49 @@ export default function ProjectsSection() {
       }
     }
     
+    function handleKeyDown(event: KeyboardEvent) {
+      // Close modal on Escape key
+      if (event.key === 'Escape' && selectedProject) {
+        setSelectedProject(null);
+      }
+    }
+    
     if (selectedProject) {
       document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
     }
     
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [selectedProject]);
   
+  // Use localized field with proper locale
+  const getLocalizedProjectField = useCallback((project: Project, field: keyof Project, jaField: keyof Project): string => {
+    return getLocalizedField(project, field, jaField, locale);
+  }, [locale]);
+  
+  // Use localized results with proper locale
+  const getLocalizedProjectResults = useCallback((project: Project) => {
+    return getLocalizedResults(project, locale);
+  }, [locale]);
+  
   return (
     <section className="pb-10 sm:pb-14 md:pb-20 lg:pb-24 pt-6 sm:pt-8 md:pt-12 lg:pt-16">
+      {/* Debug information */}
+      {showDebug && (
+        <div className="fixed top-0 right-0 bg-black/80 text-white p-2 z-50 text-xs">
+          <p>Current locale: {locale}</p>
+          <p>getLocalizedField test: {getLocalizedField(portfolioProjects[0], 'description', 'descriptionJa', locale)}</p>
+        </div>
+      )}
+      
       <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl 2xl:max-w-[1400px]">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium">Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-sky-400">Projects</span></h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium">{t('projects.title')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-sky-400">{t('projects.eyebrow')}</span></h2>
           <p className="mt-3 sm:mt-4 md:mt-6 text-white/70 text-base sm:text-lg">
-            A showcase of my recent work and the solutions I've developed
+            {t('projects.description')}
           </p>
         </div>
 
@@ -311,15 +412,16 @@ export default function ProjectsSection() {
               <div className="flex flex-col lg:flex-row lg:gap-5 xl:gap-10 lg:items-start">
                 {/* Left side: Project preview */}
                 <div className="lg:w-[55%] xl:w-3/5 order-2 lg:order-1 mb-3 xs:mb-4 sm:mb-5 lg:mb-0">
-                  <DesktopPreview project={project} />
+                  <DesktopPreview project={project} t={t} locale={locale} />
                   
                   <div className="flex flex-wrap gap-1.5 xs:gap-2 sm:gap-3 mt-2.5 xs:mt-3 sm:mt-4 justify-center">
                     {/* View Details button - Only on small screens */}
                     <button
                       onClick={() => setSelectedProject(project)}
-                      className="lg:hidden bg-emerald-500 h-6 xs:h-7 sm:h-8 md:h-9 px-2 xs:px-2.5 sm:px-3 md:px-4 rounded-md sm:rounded-lg font-semibold text-[9px] xs:text-[10px] sm:text-xs md:text-sm inline-flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 transition hover:bg-emerald-600"
+                      className="lg:hidden bg-emerald-500 h-6 xs:h-7 sm:h-8 md:h-9 px-2 xs:px-2.5 sm:px-3 md:px-4 rounded-md sm:rounded-lg font-semibold text-[9px] xs:text-[10px] sm:text-xs md:text-sm inline-flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 transition hover:bg-emerald-600 focus-indicator"
+                      aria-label={`${t('projects.viewDetailsFor')} ${project.title}`}
                     >
-                      <span>View Details</span>
+                      <span>{t('projects.viewDetails')}</span>
                       <svg className="size-2.5 xs:size-3 sm:size-3.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M9 5L16 12L9 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
@@ -329,10 +431,12 @@ export default function ProjectsSection() {
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`View live demo - ${project.title}`}
-                      className={`${project.link === "#" ? "bg-gray-500 cursor-not-allowed" : "bg-white hover:bg-gray-100"} text-gray-950 h-6 xs:h-7 sm:h-8 md:h-9 lg:h-10 px-2 xs:px-2.5 sm:px-3 md:px-4 lg:px-5 rounded-md sm:rounded-lg font-semibold text-[9px] xs:text-[10px] sm:text-xs md:text-sm inline-flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 transition`}
+                      aria-label={`${t('projects.viewLiveDemoFor')} ${project.title}`}
+                      className={`${project.link === "#" ? "bg-gray-500 cursor-not-allowed" : "bg-white hover:bg-gray-100"} text-gray-950 h-6 xs:h-7 sm:h-8 md:h-9 lg:h-10 px-2 xs:px-2.5 sm:px-3 md:px-4 lg:px-5 rounded-md sm:rounded-lg font-semibold text-[9px] xs:text-[10px] sm:text-xs md:text-sm inline-flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 transition focus-indicator`}
+                      tabIndex={project.link === "#" ? -1 : 0}
+                      onClick={(e) => project.link === "#" && e.preventDefault()}
                     >
-                      <span>{project.link === "#" ? "Demo Coming Soon" : "View Live Demo"}</span> 
+                      <span>{project.link === "#" ? t('projects.demoComingSoon') : t('projects.viewLiveDemo')}</span> 
                       {project.link !== "#" && <ArrowRightIcon aria-hidden="true" className="size-2.5 xs:size-3 sm:size-3.5 md:size-4" />}
                     </Link>
                     
@@ -341,15 +445,18 @@ export default function ProjectsSection() {
                         href={project.repoLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={`View code - ${project.title}`}
-                        className="border border-white/15 text-white h-6 xs:h-7 sm:h-8 md:h-9 lg:h-10 px-2 xs:px-2.5 sm:px-3 md:px-4 lg:px-5 rounded-md sm:rounded-lg font-semibold text-[9px] xs:text-[10px] sm:text-xs md:text-sm inline-flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 hover:bg-white/10 transition-colors"
+                        aria-label={`${t('projects.viewCodeFor')} ${project.title}`}
+                        className="border border-white/15 text-white h-6 xs:h-7 sm:h-8 md:h-9 lg:h-10 px-2 xs:px-2.5 sm:px-3 md:px-4 lg:px-5 rounded-md sm:rounded-lg font-semibold text-[9px] xs:text-[10px] sm:text-xs md:text-sm inline-flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 hover:bg-white/10 transition-colors focus-indicator"
                       >
-                        <span>View Code</span> 
+                        <span>{t('projects.viewCode')}</span> 
                         <ArrowRightIcon aria-hidden="true" className="size-2.5 xs:size-3 sm:size-3.5 md:size-4" />
                       </Link>
                     ) : project.repoLink === "#" ? (
-                      <div className="border border-white/15 text-white/50 h-6 xs:h-7 sm:h-8 md:h-9 lg:h-10 px-2 xs:px-2.5 sm:px-3 md:px-4 lg:px-5 rounded-md sm:rounded-lg font-semibold text-[9px] xs:text-[10px] sm:text-xs md:text-sm inline-flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 cursor-not-allowed">
-                        <span>Code Private</span>
+                      <div 
+                        className="border border-white/15 text-white/50 h-6 xs:h-7 sm:h-8 md:h-9 lg:h-10 px-2 xs:px-2.5 sm:px-3 md:px-4 lg:px-5 rounded-md sm:rounded-lg font-semibold text-[9px] xs:text-[10px] sm:text-xs md:text-sm inline-flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 cursor-not-allowed"
+                        aria-label={t('projects.codePrivate')}
+                      >
+                        <span>{t('projects.codePrivate')}</span>
                       </div>
                     ) : null}
                   </div>
@@ -358,7 +465,7 @@ export default function ProjectsSection() {
                 {/* Right side: Project details */}
                 <div className="lg:w-[45%] xl:w-2/5 flex flex-col order-1 lg:order-2 min-h-0 mb-3 xs:mb-3.5 sm:mb-4 lg:mb-0">
                   <div className="bg-gradient-to-r from-emerald-300 to-sky-400 inline-flex flex-wrap gap-0.5 xs:gap-1 sm:gap-1.5 md:gap-2 font-bold uppercase tracking-widest text-[7px] xs:text-[8px] sm:text-[10px] md:text-xs text-transparent bg-clip-text">
-                    <span className="text-white/60">{project.company}</span>
+                    <span className="text-white/60">{getLocalizedProjectField(project, 'company', 'companyJa')}</span>
                     <span>&bull;</span>
                     <span className="text-emerald-400">{project.year}</span>
                     {project.achievement && (
@@ -370,8 +477,8 @@ export default function ProjectsSection() {
                             </svg>
                           </div>
                           <div className="flex flex-col">
-                            <span className="text-[7px] xs:text-[8px] sm:text-[10px] md:text-xs">Award Winner</span>
-                            <span className="text-[5px] xs:text-[6px] sm:text-[8px] md:text-[10px] opacity-70 tracking-normal font-normal">(hover to view)</span>
+                            <span className="text-[7px] xs:text-[8px] sm:text-[10px] md:text-xs">{t('projects.awardWinner')}</span>
+                            <span className="text-[5px] xs:text-[6px] sm:text-[8px] md:text-[10px] opacity-70 tracking-normal font-normal">({t('projects.hoverToView')})</span>
                           </div>
                         </span>
                         
@@ -396,21 +503,21 @@ export default function ProjectsSection() {
                     )}
                   </div>
                   <h3 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-serif mt-0.5 xs:mt-1 sm:mt-1.5 md:mt-2 lg:mt-3">
-                    {project.title}
+                    {getLocalizedProjectField(project, 'title', 'titleJa')}
                   </h3>
                   
                   {/* Optional project description - Show truncated on small screens, full on large */}
                   {project.description && (
                     <div className="mt-1 xs:mt-1.5 sm:mt-2 md:mt-3">
                       <p className="text-white/70 text-[8px] xs:text-[9px] sm:text-xs md:text-sm lg:text-base leading-relaxed line-clamp-3 xs:line-clamp-4 lg:line-clamp-none max-w-prose border-l-2 border-emerald-500/20 pl-1.5 xs:pl-2 sm:pl-3 md:pl-4 py-0.5 xs:py-1 sm:py-1.5 bg-gradient-to-r from-emerald-500/5 to-transparent rounded-r">
-                        {project.description}
+                        {getLocalizedProjectField(project, 'description', 'descriptionJa')}
                       </p>
                     </div>
                   )}
                   
                   <hr className="border-t border-white/5 mt-1.5 xs:mt-2 sm:mt-3 md:mt-4" />
                   <ul className="flex flex-col gap-1 xs:gap-1.5 sm:gap-2 md:gap-2.5 mt-1.5 xs:mt-2 sm:mt-3 md:mt-4">
-                    {project.results.map((result, index) => (
+                    {getLocalizedProjectResults(project).map((result, index) => (
                       <li
                         key={result.title}
                         className={`flex gap-1 xs:gap-1.5 sm:gap-2 md:gap-2.5 text-[8px] xs:text-[9px] sm:text-xs md:text-sm lg:text-base text-white/80 ${index > 1 ? 'hidden xs:flex lg:flex' : ''}`}
@@ -429,16 +536,22 @@ export default function ProjectsSection() {
 
       {/* Modal for mobile/tablet screens */}
       {selectedProject && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-gray-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div 
+          className="fixed inset-0 z-50 overflow-y-auto bg-gray-900/80 backdrop-blur-sm flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="project-modal-title"
+        >
           <div 
             ref={modalRef}
             className="bg-gray-800 rounded-xl border border-gray-700 w-full max-w-md max-h-[90vh] overflow-y-auto" 
           >
             <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-4 flex justify-between items-center z-10">
-              <h3 className="text-base sm:text-lg font-serif">{selectedProject.title}</h3>
+              <h3 id="project-modal-title" className="text-base sm:text-lg font-serif">{getLocalizedProjectField(selectedProject, 'title', 'titleJa')}</h3>
               <button 
                 onClick={() => setSelectedProject(null)}
-                className="text-gray-400 hover:text-white p-1 rounded-full"
+                className="text-gray-400 hover:text-white p-1 rounded-full focus-indicator"
+                aria-label={t('projects.closeProjectDetails')}
               >
                 <XIcon className="size-5" />
               </button>
@@ -446,14 +559,14 @@ export default function ProjectsSection() {
             
             <div className="p-3 sm:p-4">
               <div className="flex items-center gap-2 text-xs mb-3">
-                <span className="bg-gray-700 px-2 py-0.5 rounded text-white/70">{selectedProject.company}</span>
+                <span className="bg-gray-700 px-2 py-0.5 rounded text-white/70">{getLocalizedProjectField(selectedProject, 'company', 'companyJa')}</span>
                 <span className="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">{selectedProject.year}</span>
                 {selectedProject.achievement && (
                   <div className="bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded flex items-center gap-1">
                     <svg className="size-3 text-amber-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5 8.999c0 1.902.765 3.627 2 4.89V21a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-7.111a6.973 6.973 0 0 0 2-4.89V5.5A1.5 1.5 0 0 0 17.5 4h-11A1.5 1.5 0 0 0 5 5.5v3.499zM9.75 14.063a.5.5 0 0 1 .5.5V19.5h-2v-7.893a7.019 7.019 0 0 0 1.5.456zm4.755-.063a.5.5 0 0 0-.5.5V19.5h2v-7.893a6.946 6.946 0 0 1-1.5.393zM7 8.999V5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v3.499A5 5 0 1 1 7 8.999z"/>
                     </svg>
-                    <span>Award Winner</span>
+                    <span>{t('projects.awardWinner')}</span>
                   </div>
                 )}
               </div>
@@ -476,18 +589,22 @@ export default function ProjectsSection() {
               
               {selectedProject.description && (
                 <div className="mb-4">
-                  <h4 className="text-sm font-medium text-white/90 mb-1">Project Description</h4>
-                  <p className="text-xs sm:text-sm text-white/70">{selectedProject.description}</p>
+                  <h4 className="text-sm font-medium text-white/90 mb-1">{t('projects.projectDescription')}</h4>
+                  <p className="text-xs sm:text-sm text-white/70">{getLocalizedProjectField(selectedProject, 'description', 'descriptionJa')}</p>
                 </div>
               )}
               
-              <div className="mb-4">
-                <h4 className="text-sm font-medium text-white/90 mb-2">Key Features</h4>
-                <ul className="space-y-2">
-                  {selectedProject.results.map((result) => (
-                    <li key={result.title} className="flex items-start gap-2 text-white/80 text-xs">
-                      <CheckCircleIcon className="size-4 flex-shrink-0 text-emerald-400 mt-0.5" />
-                      <span>{result.title}</span>
+              <div className="mt-4">
+                <h4 className="uppercase tracking-wider text-xs text-emerald-400 font-bold mb-2">{t('projects.keyResults')}</h4>
+                <ul className="grid gap-3">
+                  {getLocalizedProjectResults(selectedProject).map((result, i) => (
+                    <li key={i} className="flex gap-2 items-start">
+                      <div className="bg-emerald-500/10 text-emerald-400 rounded-full p-1 mt-0.5">
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <span className="text-sm text-white/80">{result.title}</span>
                     </li>
                   ))}
                 </ul>
@@ -498,10 +615,10 @@ export default function ProjectsSection() {
                   href={selectedProject.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`View live demo - ${selectedProject.title}`}
+                  aria-label={`${t('projects.viewLiveDemoFor')} ${selectedProject.title}`}
                   className={`${selectedProject.link === "#" ? "bg-gray-500 cursor-not-allowed" : "bg-white hover:bg-gray-100"} text-gray-950 h-9 px-4 rounded-lg font-semibold text-sm inline-flex items-center justify-center gap-2 transition`}
                 >
-                  <span>{selectedProject.link === "#" ? "Demo Coming Soon" : "View Live Demo"}</span> 
+                  <span>{selectedProject.link === "#" ? t('projects.demoComingSoon') : t('projects.viewLiveDemo')}</span> 
                   {selectedProject.link !== "#" && <ArrowRightIcon aria-hidden="true" className="size-4" />}
                 </Link>
                 
@@ -510,15 +627,15 @@ export default function ProjectsSection() {
                     href={selectedProject.repoLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`View code - ${selectedProject.title}`}
+                    aria-label={`${t('projects.viewCodeFor')} ${selectedProject.title}`}
                     className="border border-white/15 text-white h-9 px-4 rounded-lg font-semibold text-sm inline-flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
                   >
-                    <span>View Code</span> 
+                    <span>{t('projects.viewCode')}</span> 
                     <ArrowRightIcon aria-hidden="true" className="size-4" />
                   </Link>
                 ) : selectedProject.repoLink === "#" ? (
                   <div className="border border-white/15 text-white/50 h-9 px-4 rounded-lg font-semibold text-sm inline-flex items-center justify-center gap-2 cursor-not-allowed">
-                    <span>Code Private</span>
+                    <span>{t('projects.codePrivate')}</span>
                   </div>
                 ) : null}
               </div>

@@ -2,6 +2,25 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+// Define cross-platform command execution function
+const runCommand = (command) => {
+  try {
+    execSync(command, { 
+      stdio: 'inherit',
+      env: {
+        ...process.env,
+        NEXT_DISABLE_ESLINT: '1',
+        TS_NODE_PROJECT: 'tsconfig.vercel.json'
+      },
+      shell: process.platform === 'win32' ? 'powershell.exe' : '/bin/bash'
+    });
+    return true;
+  } catch (error) {
+    console.error(`Failed to execute: ${command}`, error);
+    return false;
+  }
+};
+
 // Create a tsconfig.vercel.json that excludes the backend directory
 const tsconfigPath = path.join(__dirname, 'tsconfig.json');
 const tsconfigVercelPath = path.join(__dirname, 'tsconfig.vercel.json');
@@ -21,14 +40,11 @@ fs.writeFileSync(tsconfigVercelPath, JSON.stringify(tsconfig, null, 2));
 // Run the build with the modified tsconfig
 try {
   console.log('Building Next.js app...');
-  execSync('next build', { 
-    stdio: 'inherit',
-    env: {
-      ...process.env,
-      NEXT_DISABLE_ESLINT: '1',
-      TS_NODE_PROJECT: 'tsconfig.vercel.json'
-    }
-  });
+  const buildSucceeded = runCommand('next build');
+  
+  if (!buildSucceeded) {
+    throw new Error('Build command failed');
+  }
 } catch (error) {
   console.error('Build failed:', error);
   process.exit(1);

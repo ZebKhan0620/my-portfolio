@@ -1,33 +1,25 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
 import { verifyAdminKey } from '@/lib/adminAuth';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    // Get the admin key from the cookie
-    const adminKey = request.cookies.get('adminKey')?.value;
-
+    const cookieStore = cookies();
+    const adminKey = cookieStore.get('adminKey')?.value;
+    
     if (!adminKey) {
-      return NextResponse.json(
-        { error: 'No admin key found' },
-        { status: 401 }
-      );
+      return new NextResponse('Unauthorized', { status: 401 });
     }
-
+    
     // Verify the admin key
     const isValid = verifyAdminKey(adminKey);
     
     if (!isValid) {
-      return NextResponse.json(
-        { error: 'Invalid admin key' },
-        { status: 401 }
-      );
+      return new NextResponse('Unauthorized', { status: 401 });
     }
-
-    return NextResponse.json({ authenticated: true });
+    
+    return new NextResponse('OK', { status: 200 });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal server error during auth check' },
-      { status: 500 }
-    );
+    return new NextResponse('Internal Server Error', { status: 500 });
   }
 } 

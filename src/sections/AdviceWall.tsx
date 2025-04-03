@@ -3,15 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { adviceService, type AdviceEntry } from '@/services/adviceService';
-
-// Define the data structure for advice entries
-// interface AdviceEntry {
-//   id: string;
-//   name: string;
-//   message: string;
-//   role: string;
-//   timestamp: number;
-// }
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Sample initial data for testing
 const initialAdvice: AdviceEntry[] = [
@@ -39,20 +31,20 @@ const initialAdvice: AdviceEntry[] = [
 ];
 
 // Format the timestamp
-const formatDate = (timestamp: number): string => {
+const formatDate = (timestamp: number, locale: string): string => {
   const date = new Date(timestamp);
   const now = new Date();
   const diffTime = Math.abs(now.getTime() - date.getTime());
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
   if (diffDays === 0) {
-    return 'Today';
+    return locale === 'ja' ? '今日' : 'Today';
   } else if (diffDays === 1) {
-    return 'Yesterday';
+    return locale === 'ja' ? '昨日' : 'Yesterday';
   } else if (diffDays < 7) {
-    return `${diffDays} days ago`;
+    return locale === 'ja' ? `${diffDays}日前` : `${diffDays} days ago`;
   } else {
-    return date.toLocaleDateString('en-US', { 
+    return date.toLocaleDateString(locale === 'ja' ? 'ja-JP' : 'en-US', { 
       month: 'short', 
       day: 'numeric', 
       year: 'numeric' 
@@ -62,6 +54,8 @@ const formatDate = (timestamp: number): string => {
 
 // Component for individual advice entries with different display styles
 const AdviceCard = ({ entry, displayStyle }: { entry: AdviceEntry, displayStyle: string }) => {
+  const { locale } = useLanguage();
+  
   // Different display styles for variety
   switch (displayStyle) {
     case 'gradient':
@@ -76,7 +70,7 @@ const AdviceCard = ({ entry, displayStyle }: { entry: AdviceEntry, displayStyle:
           
           <div className="flex justify-between items-start mb-2 xs:mb-3">
             <h3 className="text-base xs:text-lg font-medium text-indigo-300 line-clamp-1">{entry.name}</h3>
-            <span className="text-indigo-200/40 text-xs whitespace-nowrap ml-2">{formatDate(entry.timestamp)}</span>
+            <span className="text-indigo-200/40 text-xs whitespace-nowrap ml-2">{formatDate(entry.timestamp, locale)}</span>
           </div>
           <div className="overflow-y-auto flex-grow mb-2 xs:mb-3">
             <p className="text-white/90 text-sm xs:text-base">"{entry.message}"</p>
@@ -92,7 +86,7 @@ const AdviceCard = ({ entry, displayStyle }: { entry: AdviceEntry, displayStyle:
             <div className="font-mono text-cyan-400 leading-relaxed space-y-2 h-full flex flex-col">
               <div className="flex justify-between text-xs">
                 <span className="line-clamp-1 pr-2">FROM: {entry.name}</span>
-                <span className="whitespace-nowrap">{formatDate(entry.timestamp)}</span>
+                <span className="whitespace-nowrap">{formatDate(entry.timestamp, locale)}</span>
               </div>
               <div className="h-px bg-cyan-400/20 w-full"></div>
               <div className="flex-grow overflow-y-auto">
@@ -117,7 +111,7 @@ const AdviceCard = ({ entry, displayStyle }: { entry: AdviceEntry, displayStyle:
             <h3 className="text-base xs:text-lg font-medium text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 line-clamp-1 pr-2">
               {entry.name}
             </h3>
-            <span className="text-white/40 text-xs whitespace-nowrap">{formatDate(entry.timestamp)}</span>
+            <span className="text-white/40 text-xs whitespace-nowrap">{formatDate(entry.timestamp, locale)}</span>
           </div>
           <p className="text-white/60 text-xs xs:text-sm mb-2">{entry.role}</p>
           <div className="flex-grow overflow-y-auto">
@@ -131,7 +125,7 @@ const AdviceCard = ({ entry, displayStyle }: { entry: AdviceEntry, displayStyle:
         <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 shadow-lg h-full flex flex-col">
           <div className="ticker-header bg-gray-700/60 px-3 xs:px-4 py-2 flex justify-between items-center">
             <h3 className="text-white font-medium truncate text-sm xs:text-base">{entry.name}</h3>
-            <span className="text-white/40 text-xs ml-2 whitespace-nowrap">{formatDate(entry.timestamp)}</span>
+            <span className="text-white/40 text-xs ml-2 whitespace-nowrap">{formatDate(entry.timestamp, locale)}</span>
           </div>
           <div className="flex-grow flex flex-col">
             <div className="ticker-content px-3 xs:px-4 py-2 xs:py-3 relative overflow-hidden">
@@ -155,7 +149,7 @@ const AdviceCard = ({ entry, displayStyle }: { entry: AdviceEntry, displayStyle:
           <div className="mb-2 xs:mb-3 border-b border-amber-200 pb-2">
             <div className="flex justify-between">
               <h3 className="text-amber-900 font-medium text-sm xs:text-base line-clamp-1 pr-2">{entry.name}</h3>
-              <span className="text-amber-700/60 text-xs whitespace-nowrap">{formatDate(entry.timestamp)}</span>
+              <span className="text-amber-700/60 text-xs whitespace-nowrap">{formatDate(entry.timestamp, locale)}</span>
             </div>
             <p className="text-amber-700 text-xs">{entry.role}</p>
           </div>
@@ -184,7 +178,7 @@ const AdviceCard = ({ entry, displayStyle }: { entry: AdviceEntry, displayStyle:
           </div>
           <p className="text-white/40 text-xs flex justify-between border-t border-white/10 pt-2 mt-auto">
             <span className="line-clamp-1 pr-2">{entry.role}</span>
-            <span className="text-green-400/70 whitespace-nowrap">Created: {formatDate(entry.timestamp)}</span>
+            <span className="text-green-400/70 whitespace-nowrap">Created: {formatDate(entry.timestamp, locale)}</span>
           </p>
         </div>
       );
@@ -196,7 +190,7 @@ const AdviceCard = ({ entry, displayStyle }: { entry: AdviceEntry, displayStyle:
           <div className="relative h-full flex flex-col">
             <div className="flex justify-between items-start mb-2 xs:mb-3">
               <h3 className="text-white font-medium text-sm xs:text-base line-clamp-1 pr-2">{entry.name}</h3>
-              <span className="text-white/40 text-xs whitespace-nowrap">{formatDate(entry.timestamp)}</span>
+              <span className="text-white/40 text-xs whitespace-nowrap">{formatDate(entry.timestamp, locale)}</span>
             </div>
             <div className="flex-grow overflow-y-auto">
               <p className="text-white/90 text-sm xs:text-base mb-3">"{entry.message}"</p>
@@ -218,7 +212,7 @@ const AdviceCard = ({ entry, displayStyle }: { entry: AdviceEntry, displayStyle:
               <h3 className="text-base xs:text-lg font-medium text-white line-clamp-1">{entry.name}</h3>
               <p className="text-white/60 text-xs xs:text-sm">{entry.role}</p>
             </div>
-            <span className="text-white/40 text-xs whitespace-nowrap ml-2">{formatDate(entry.timestamp)}</span>
+            <span className="text-white/40 text-xs whitespace-nowrap ml-2">{formatDate(entry.timestamp, locale)}</span>
           </div>
           <div className="flex-grow overflow-y-auto">
             <p className="text-white/90 text-sm xs:text-base">"{entry.message}"</p>
@@ -248,6 +242,7 @@ export default function AdviceWall() {
   const [showArrows, setShowArrows] = useState(false);
   const [autoScroll, setAutoScroll] = useState(true);
   const autoScrollRef = useRef<NodeJS.Timeout>();
+  const { t, locale } = useLanguage();
 
   // Check if device is touch-enabled and screen size
   useEffect(() => {
@@ -328,18 +323,18 @@ export default function AdviceWall() {
     const fetchAdvice = async () => {
       try {
         setLoading(true);
-        const data = await adviceService.getAllAdvice();
+        const data = await adviceService.getAllAdvice(locale);
         setAdvice(data);
       } catch (err) {
         console.error('Error fetching advice:', err);
-        setError('Failed to load advice. Please try again later.');
+        setError(locale === 'ja' ? 'アドバイスを読み込めませんでした。後ほど再度お試しください。' : 'Failed to load advice. Please try again later.');
       } finally {
         setLoading(false);
       }
     };
 
     fetchAdvice();
-  }, []);
+  }, [locale]);
 
   // Calculate cards per page based on screen size
   const getCardsPerPage = () => {
@@ -392,14 +387,14 @@ export default function AdviceWall() {
     setSubmitSuccess(false);
 
     try {
-      await adviceService.submitAdvice(formData);
+      await adviceService.submitAdvice(formData, locale);
       setSubmitSuccess(true);
       setFormData({ name: '', message: '', role: '' });
-      const updatedAdvice = await adviceService.getAllAdvice();
+      const updatedAdvice = await adviceService.getAllAdvice(locale);
       setAdvice(updatedAdvice);
     } catch (err) {
       console.error('Error submitting advice:', err);
-      setSubmitError('Failed to submit your advice. Please try again.');
+      setSubmitError(t('adviceWall.form.errorMessage'));
     } finally {
       setIsSubmitting(false);
     }
@@ -418,62 +413,66 @@ export default function AdviceWall() {
       <div className="container mx-auto px-3 xs:px-4 sm:px-6 md:px-8 max-w-7xl">
         <div className="text-center mb-8 xs:mb-12 sm:mb-16 md:mb-20">
           <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-serif font-medium">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-sky-400">Advice</span> Wall
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-sky-400">{t('adviceWall.title')}</span> {t('adviceWall.titleSuffix')}
           </h2>
           <p className="mt-2 xs:mt-3 sm:mt-4 md:mt-6 text-white/70 text-sm xs:text-base sm:text-lg max-w-2xl mx-auto">
-            Have some advice or feedback? I'd love to hear from fellow developers, designers, and recruiters.
-            Your insights help me grow!
+            {t('adviceWall.description')}
+          </p>
+          <p className="mt-2 text-white/60 text-xs xs:text-sm max-w-2xl mx-auto">
+            {locale === 'ja' 
+              ? "現在、HAL東京でWeb開発（主にフロントエンド・Webデザイン）を学んでいます。バックエンドについては独学で勉強中ですが、まだ専門的ではありません。" 
+              : "I'm currently studying Web Development at HAL Tokyo (focusing on frontend and web design). I'm learning backend development on my own, though I'm not yet proficient in this area."}
           </p>
         </div>
 
         {/* Submission form */}
         <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl xs:rounded-2xl p-4 xs:p-6 sm:p-8 border border-white/10 shadow-xl max-w-2xl mx-auto mb-12 xs:mb-16">
-          <h3 className="text-lg xs:text-xl sm:text-2xl font-medium mb-3 xs:mb-4">Share Your Advice</h3>
+          <h2 className="text-lg xs:text-xl sm:text-2xl font-medium mb-3 xs:mb-4">{t('adviceWall.form.title')}</h2>
           <form ref={formRef} onSubmit={handleSubmit} className="space-y-3 xs:space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4">
               <div>
-                <label htmlFor="name" className="block text-white/80 text-xs xs:text-sm mb-1">Name *</label>
+                <label htmlFor="name" className="block text-white/80 text-xs xs:text-sm mb-1">{t('adviceWall.form.name')} *</label>
                 <input
                   type="text"
                   id="name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full bg-gray-900/50 border border-white/20 rounded-lg px-3 py-1.5 xs:py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 text-sm"
-                  placeholder="Your name"
+                  placeholder={t('adviceWall.form.namePlaceholder')}
                   required
                 />
               </div>
               <div>
-                <label htmlFor="role" className="block text-white/80 text-xs xs:text-sm mb-1">Role</label>
+                <label htmlFor="role" className="block text-white/80 text-xs xs:text-sm mb-1">{t('adviceWall.form.role')}</label>
                 <input
                   type="text"
                   id="role"
                   value={formData.role}
                   onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                   className="w-full bg-gray-900/50 border border-white/20 rounded-lg px-3 py-1.5 xs:py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 text-sm"
-                  placeholder="Developer, Designer, Recruiter, etc."
+                  placeholder={t('adviceWall.form.rolePlaceholder')}
                 />
               </div>
             </div>
             <div>
-              <label htmlFor="message" className="block text-white/80 text-xs xs:text-sm mb-1">Your Advice *</label>
+              <label htmlFor="message" className="block text-white/80 text-xs xs:text-sm mb-1">{t('adviceWall.form.message')} *</label>
               <textarea
                 id="message"
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="w-full bg-gray-900/50 border border-white/20 rounded-lg px-3 py-1.5 xs:py-2 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 text-sm h-20 xs:h-24 sm:h-28"
-                placeholder="Share your advice, feedback, or suggestions..."
+                placeholder={t('adviceWall.form.messagePlaceholder')}
                 required
               ></textarea>
             </div>
             <div className="flex items-center justify-between pt-1 xs:pt-2">
-              <p className="text-white/40 text-xs">* Required fields</p>
+              <p className="text-white/40 text-xs">{t('adviceWall.form.requiredFields')}</p>
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className="px-3 xs:px-4 py-1.5 xs:py-2 bg-gradient-to-r from-emerald-500 to-sky-500 hover:from-emerald-600 hover:to-sky-600 rounded-lg text-white text-sm font-medium transition-colors duration-300 disabled:opacity-50"
               >
-                {isSubmitting ? 'Submitting...' : 'Share Advice'}
+                {isSubmitting ? t('adviceWall.form.submitting') : t('adviceWall.form.submit')}
               </button>
             </div>
             
@@ -484,7 +483,7 @@ export default function AdviceWall() {
                   <svg className="w-4 h-4 xs:w-5 xs:h-5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-sm">Thank you for your advice!</span>
+                  <span className="text-sm">{t('adviceWall.form.successMessage')}</span>
                 </div>
               </div>
             )}
@@ -496,7 +495,7 @@ export default function AdviceWall() {
                   <svg className="w-4 h-4 xs:w-5 xs:h-5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
-                  <span className="text-sm">{submitError}</span>
+                  <span className="text-sm">{t('adviceWall.form.errorMessage')}</span>
                 </div>
               </div>
             )}

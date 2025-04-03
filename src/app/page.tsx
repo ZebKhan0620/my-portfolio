@@ -1,3 +1,9 @@
+'use server';
+
+import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
+import { createLogger } from '@/lib/logging';
+import { locales, defaultLocale } from '@/config/i18n';
 import {Header} from '@/sections/Header';
 import {HeroSection} from '@/sections/Hero';
 import ProjectsSection from '@/sections/Projects';
@@ -8,18 +14,91 @@ import AdviceWall from '@/sections/AdviceWall';
 import { Footer } from '@/sections/Footer';
 import { ScrollProgressIndicator } from '@/components/ScrollProgressIndicator';
 import Link from 'next/link';
+import SkipLink from '@/components/accessibility/SkipLink';
 
-export default function Home() {
+const logger = createLogger('RootPage', true);
+
+/**
+ * Detect if the request is from a bot or search engine crawler
+ */
+function isBot(userAgent: string | null): boolean {
+  if (!userAgent) return false;
+  
+  const botPatterns = [
+    'bot', 'crawler', 'spider', 'slurp', 'baiduspider',
+    'yandex', 'googlebot', 'bingbot', 'semrushbot',
+    'lighthouse', 'chrome-lighthouse', 'screaming frog',
+    'ahrefsbot', 'bytespider', 'facebookexternalhit',
+    'whatsapp', 'telegrambot', 'discordbot', 'twitterbot',
+    'applebot', 'pintbot'
+  ];
+  
+  const lowerUserAgent = userAgent.toLowerCase();
+  return botPatterns.some(pattern => lowerUserAgent.includes(pattern));
+}
+
+/**
+ * Try to detect the preferred language from Accept-Language header
+ */
+function detectLanguageFromHeader(): string {
+  try {
+    const headersList = headers();
+    const acceptLanguage = headersList.get('accept-language') || '';
+    const userAgent = headersList.get('user-agent');
+    
+    // Log user agent for debugging
+    if (isBot(userAgent)) {
+      logger.info('Bot detected', { userAgent, acceptLanguage });
+    }
+    
+    // Extract language preferences
+    const languages = acceptLanguage
+      .split(',')
+      .map(lang => {
+        const [language, quality = 'q=1.0'] = lang.trim().split(';');
+        const q = parseFloat(quality.replace('q=', ''));
+        return { language: language.split('-')[0], q };
+      })
+      .filter(({ language }) => locales.includes(language as any))
+      .sort((a, b) => b.q - a.q);
+    
+    if (languages.length > 0) {
+      // Return the language with highest quality score
+      return languages[0].language;
+    }
+  } catch (error) {
+    logger.error('Error detecting language from header', error);
+  }
+  
+  return defaultLocale;
+}
+
+/**
+ * Root page that redirects to the appropriate language page
+ */
+export default function RootPage() {
+  const preferredLocale = detectLanguageFromHeader();
+  logger.info('Redirecting to language page', { preferredLocale });
+  
+  // Redirect to the appropriate language page
+  redirect(`/${preferredLocale}`);
+  
+  // This component will never render
+  return null;
+}
+
+export function Home() {
   return (
     <div className="relative">
+      {/* Skip link for keyboard users to bypass navigation */}
+      <SkipLink targetId="main-content" />
+      
       {/* Accessibility landmark for assistive technology */}
       <header>
         <Header />
-        {/* Skip link target */}
-        <a id="main-content" className="sr-only">Main content</a>
       </header>
       
-      <main>
+      <main id="main-content" tabIndex={-1}>
         {/* Scroll progress indicator */}
         <ScrollProgressIndicator />
         

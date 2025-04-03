@@ -9,6 +9,9 @@ const options = {
   maxPoolSize: 10,
   serverSelectionTimeoutMS: 5000,
   socketTimeoutMS: 45000,
+  connectTimeoutMS: 10000,
+  retryWrites: true,
+  retryReads: true,
 };
 
 let client: MongoClient;
@@ -42,7 +45,17 @@ export async function connectToDatabase() {
     const db = client.db();
     return { client, db };
   } catch (error) {
-    console.error('MongoDB connection error:', error);
+    console.error('[PRODUCTION] MongoDB connection error:', error);
+    
+    // More specific error handling
+    if (error instanceof Error) {
+      if (error.message.includes('connection')) {
+        throw new Error('Database connection failed - please check network or credentials');
+      } else if (error.message.includes('authentication')) {
+        throw new Error('Database authentication failed - please check credentials');
+      }
+    }
+    
     throw new Error('Failed to connect to MongoDB');
   }
 }

@@ -1,0 +1,236 @@
+{
+  "language": "English",
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About",
+    "advice": "Advice",
+    "contact": "Contact"
+  },
+  "header": {
+    "languageSelection": "Select your language"
+  },
+  "hero": {
+    "greeting": "Hi, I'm Zeb Khan",
+    "role": "Frontend Developer",
+    "intro": "I'm passionate about building user-friendly web applications",
+    "name": "ZEB KHAN",
+    "jobTitle": "Full-stack Developer",
+    "skills": {
+      "prefix": "Specializing in",
+      "list": [
+        "Frontend Development",
+        "PHP Backend",
+        "Responsive Design",
+        "UI/UX Implementation",
+        "Full-stack Solutions"
+      ]
+    },
+    "description": "I specialize in developing responsive web applications using modern frontend technologies and robust backend systems. Currently studying at HAL Tokyo.",
+    "availableStatus": "Open to professional opportunities",
+    "viewProjects": "View My Projects",
+    "connect": "Let's Connect",
+    "scrollToExplore": "Scroll to explore",
+    "skipToContent": "Skip to main content"
+  },
+  "projects": {
+    "title": "Featured",
+    "eyebrow": "Projects",
+    "description": "A showcase of my recent work and innovative solutions I've developed",
+    "hoverToExplore": "Hover to explore",
+    "websitePreview": "Website preview",
+    "projectShowcase": "Project showcase",
+    "liveWebsite": "Live Website",
+    "comingSoon": "Coming Soon",
+    "viewDetails": "View Details",
+    "viewDetailsFor": "View details for",
+    "viewLiveDemo": "View Live Demo",
+    "viewLiveDemoFor": "View live demo -",
+    "demoComingSoon": "Demo Coming Soon",
+    "viewCode": "View Code",
+    "viewCodeFor": "View code -",
+    "codePrivate": "Code Private",
+    "closeProjectDetails": "Close project details",
+    "awardWinner": "Award Winner",
+    "hoverToView": "hover to view",
+    "projectDescription": "Project Description",
+    "keyFeatures": "Key Features",
+    "keyResults": "Key Results"
+  },
+  "about": {
+    "title": "About Me",
+    "eyebrow": "About Me",
+    "description": "I'm Zeb Khan, a full-stack developer from Pakistan currently studying at HAL Tokyo. I'm dedicated to creating user-centric web applications while continuously expanding my expertise in both frontend and backend technologies.",
+    "journey": {
+      "title": "My Journey",
+      "developer": "Front-end Developer",
+      "developerDescription": "Creating intuitive and responsive user interfaces",
+      "college": "HAL Tokyo College",
+      "award": "Planning Award Winner - Car Marketplace Project",
+      "innovation": "Technical Innovation",
+      "innovationDescription": "Integrating advanced functionality with exceptional UX"
+    },
+    "location": {
+      "memojiAlt": "My memoji",
+      "college": "HAL TOKYO College"
+    },
+    "philosophy": {
+      "title": "My Philosophy",
+      "description": "My professional approach centers on maintaining composure under pressure and implementing methodical problem-solving strategies. I demonstrate resilience when confronting challenges and value consistency throughout my professional development.",
+      "bookAlt": "Book Cover"
+    },
+    "toolbox": {
+      "title": "My Toolbox",
+      "description": "Technologies and frameworks I leverage to create exceptional digital experiences."
+    },
+    "hobbies": {
+      "title": "My Hobbies",
+      "description": "When I'm not coding, here's what I enjoy doing.",
+      "interactiveBubbles": "Interactive hobby bubbles that can be dragged",
+      "bubbleLabel": "hobby bubble, draggable",
+      "reading": "Reading",
+      "traveling": "Traveling",
+      "gaming": "Gaming",
+      "exercising": "Exercising",
+      "driving": "Driving",
+      "music": "Music",
+      "hiking": "Hiking"
+    },
+    "goals": {
+      "title": "Career Objectives",
+      "shortTerm": "Short-term Goals",
+      "goal1": "Complete studies at HAL Tokyo",
+      "goal1Description": "Current Focus",
+      "goal2": "Master frontend development skills",
+      "goal2Description": "Technical Growth",
+      "goal3": "Secure a position as a full-stack development professional",
+      "goal3Description": "Career Transition",
+      "longTerm": "Long-term Goals",
+      "goal4": "Focus on frontend specialization for 3-4 years",
+      "goal4Description": "Specialization Phase",
+      "goal5": "Transition to deeper backend architecture",
+      "goal5Description": "Skill Expansion",
+      "goal6": "Become a versatile full-stack development professional",
+      "goal6Description": "Career Milestone"
+    },
+    "achievements": {
+      "title": "Achievements",
+      "ielts": "IELTS Academic",
+      "ieltsScore": "Score: 6.5",
+      "ieltsDescription": "International English Language Testing System",
+      "halAward": "HAL Tokyo Award",
+      "halAwardType": "Planning Award (企画力賞受賞)",
+      "viewCertificate": "View Certificate",
+      "certificateAlt": "HAL Tokyo Award Certificate",
+      "awardDescription": "Recognized for exceptional planning and conceptual design skills"
+    }
+  },
+  "contact": {
+    "title": {
+      "firstPart": "Let's",
+      "highlight": "connect"
+    },
+    "subtitle": "Interested in transforming concepts into reality? I welcome the opportunity to discuss potential collaboration on exceptional digital solutions.",
+    "form": {
+      "title": "Get in Touch",
+      "subtitle": "Please complete the form below for a prompt response",
+      "name": {
+        "label": "Name",
+        "placeholder": "Your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "your.email@example.com"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Tell me about your project requirements or inquiry..."
+      },
+      "button": {
+        "submit": "Send Message",
+        "sending": "Sending Message..."
+      },
+      "success": {
+        "title": "Message Sent",
+        "message": "Thank you for reaching out. I will respond to your inquiry promptly."
+      },
+      "error": "Unable to send message. Please try again later."
+    },
+    "details": {
+      "title": "Contact Information",
+      "email": {
+        "title": "Email"
+      },
+      "github": {
+        "title": "GitHub"
+      },
+      "location": {
+        "title": "Location",
+        "place": "HAL TOKYO College"
+      },
+      "status": {
+        "label": "Status",
+        "badge1": "Student Developer",
+        "badge2": "Full-stack Focus",
+        "badge3": "Open to Internships"
+      },
+      "available": {
+        "title": "Available for",
+        "tag1": "Full-time Positions",
+        "tag2": "Full-stack Development",
+        "tag3": "Frontend Development"
+      }
+    },
+    "quickBar": {
+      "title": "Ready to initiate a project?",
+      "subtitle": "Let me help bring your vision to reality through collaborative development.",
+      "button": "Contact Directly"
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} Zeb Khan. All rights reserved."
+  },
+  "languageSwitcher": {
+    "toggle": "Switch to Japanese",
+    "chooseLanguage": "Choose your language",
+    "en": "English",
+    "ja": "Japanese"
+  },
+  "adviceWall": {
+    "title": "Advice",
+    "titleSuffix": "Wall",
+    "description": "Exchange professional insights, feedback, and recommendations with fellow industry professionals. Feel free to share your thoughts on my projects or any advice that would have accelerated your professional development.",
+    "form": {
+      "title": "Contribute Your Insight",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "role": "Professional Role",
+      "rolePlaceholder": "Developer, Designer, Recruiter, etc.",
+      "message": "Your Professional Insight",
+      "messagePlaceholder": "Share valuable insights, constructive feedback on my projects, or industry recommendations...",
+      "cardStyle": "Display Format",
+      "requiredFields": "* Required fields",
+      "submit": "Contribute Insight",
+      "submitting": "Processing...",
+      "successMessage": "Thank you for sharing your professional insight!",
+      "errorMessage": "Unable to process your submission. Please attempt again."
+    },
+    "cardTypes": {
+      "card": "Standard",
+      "paper": "Document Note",
+      "glass": "Contemporary",
+      "neon": "High Visibility",
+      "lcd": "Digital Display",
+      "terminal": "Command Line",
+      "ticker": "Scrolling Banner"
+    },
+    "filters": {
+      "all": "All Perspectives",
+      "developer": "Development Professionals",
+      "designer": "Design Specialists",
+      "manager": "Leadership",
+      "student": "Aspiring Professionals",
+      "recruiter": "Talent Acquisition"
+    }
+  }
+} 

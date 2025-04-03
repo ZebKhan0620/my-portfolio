@@ -1,4 +1,58 @@
-README.md
-.git
-backend
-backend/**/* 
+# Ignore files and directories for Vercel deployment
+
+# Dependencies
+node_modules
+.pnpm-store
+.pnp*
+
+# Testing
+/coverage
+/test
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Local environment files
+.env.local
+.env.development.local
+.env.test.local
+
+# Development files
+.vscode
+.idea
+*.log
+.DS_Store
+
+# Backend (handled separately)
+/backend/**
+!/backend/lib
+!/backend/utils
+
+# Build files
+.next
+out
+build
+dist
+
+# Development-only components and endpoints
+/src/app/api/test-db/**
+# Note: We're not excluding dev components since they're used in the admin area
+# /src/components/dev/**
+/src/components/DevTools.tsx
+/src/components/ConditionalDevTools.tsx
+
+# Backend code (not needed for frontend deployment)
+backend/
+backend-system.md
+
+# Development files
+*.git
+*.md
+!README.md
+!PRODUCTION-CHECKLIST.md
+
+# Build artifacts
+.github/
+.husky/
+.storybook/ 

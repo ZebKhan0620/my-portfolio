@@ -18,14 +18,6 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     checkAuth();
-    
-    // Also check localStorage for adminKey as a backup
-    const adminKey = localStorage.getItem('adminKey');
-    if (adminKey) {
-      // If we have an admin key, we'll consider the user authenticated
-      // The actual API requests will verify if this key is valid
-      setIsAuthenticated(true);
-    }
   }, []);
 
   const checkAuth = async () => {
@@ -62,8 +54,6 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
         throw new Error(data.error || 'Login failed');
       }
 
-      // Store the admin key for API requests
-      localStorage.setItem('adminKey', password);
       setIsAuthenticated(true);
       
       // Wait a moment before redirecting to ensure state is updated
@@ -81,8 +71,6 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
         credentials: 'include' // Important: Include cookies in the request
       });
       
-      // Clear the admin key
-      localStorage.removeItem('adminKey');
       setIsAuthenticated(false);
       
       // Wait a moment before redirecting to ensure state is updated

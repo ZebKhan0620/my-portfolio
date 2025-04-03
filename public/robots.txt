@@ -1,0 +1,14 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow crawling of admin pages
+Disallow: /admin/
+Disallow: /*/admin/
+
+# Disallow API routes
+Disallow: /api/
+
+# Sitemaps
+# IMPORTANT: Update this with your actual production domain before deployment
+Sitemap: https://your-production-domain.com/sitemap.xml 

@@ -25,9 +25,11 @@ const addAdminKey = (headers: any = {}) => {
 };
 
 export const adviceService = {
-  async getAllAdvice(): Promise<AdviceEntry[]> {
+  async getAllAdvice(locale = 'en'): Promise<AdviceEntry[]> {
     try {
-      const response = await api.get('/advice');
+      // Use locale-specific API endpoint if it's Japanese
+      const endpoint = locale === 'ja' ? '/advice/ja' : '/advice';
+      const response = await api.get(endpoint);
       if (!response.data?.data) {
         throw new Error('Invalid response format');
       }
@@ -42,7 +44,7 @@ export const adviceService = {
     } catch (error) {
       console.error('Error fetching advice:', error);
       // Fallback to localStorage if API fails
-      const storedAdvice = localStorage.getItem('advice');
+      const storedAdvice = localStorage.getItem(`advice_${locale}`);
       if (storedAdvice) {
         return JSON.parse(storedAdvice);
       }
@@ -50,13 +52,15 @@ export const adviceService = {
     }
   },
 
-  async submitAdvice(entry: Omit<AdviceEntry, 'id' | 'timestamp'>): Promise<AdviceEntry> {
+  async submitAdvice(entry: Omit<AdviceEntry, 'id' | 'timestamp'>, locale = 'en'): Promise<AdviceEntry> {
     try {
       if (!entry.name?.trim() || !entry.message?.trim()) {
         throw new Error('Name and message are required');
       }
 
-      const response = await api.post('/advice', entry);
+      // Use locale-specific API endpoint if it's Japanese
+      const endpoint = locale === 'ja' ? '/advice/ja' : '/advice';
+      const response = await api.post(endpoint, entry);
       if (!response.data?.data) {
         throw new Error('Invalid response format');
       }
@@ -70,11 +74,12 @@ export const adviceService = {
         timestamp: newEntry.timestamp || Date.now()
       };
       
-      // Update localStorage with new entry
-      const storedAdvice = localStorage.getItem('advice');
+      // Update localStorage with new entry, using locale-specific key
+      const storageKey = `advice_${locale}`;
+      const storedAdvice = localStorage.getItem(storageKey);
       const advice = storedAdvice ? JSON.parse(storedAdvice) : [];
       advice.push(formattedEntry);
-      localStorage.setItem('advice', JSON.stringify(advice));
+      localStorage.setItem(storageKey, JSON.stringify(advice));
       
       return formattedEntry;
     } catch (error) {
@@ -86,9 +91,11 @@ export const adviceService = {
     }
   },
 
-  async deleteAdvice(id: string): Promise<void> {
+  async deleteAdvice(id: string, locale = 'en'): Promise<void> {
     try {
-      const response = await api.delete(`/admin/advice/${id}`, {
+      // Use locale-specific API endpoint if it's Japanese
+      const endpoint = locale === 'ja' ? `/admin/advice/ja/${id}` : `/admin/advice/${id}`;
+      const response = await api.delete(endpoint, {
         headers: addAdminKey()
       });
       
@@ -96,12 +103,13 @@ export const adviceService = {
         throw new Error('Failed to delete advice');
       }
 
-      // Update localStorage by removing the deleted entry
-      const storedAdvice = localStorage.getItem('advice');
+      // Update localStorage by removing the deleted entry, using locale-specific key
+      const storageKey = `advice_${locale}`;
+      const storedAdvice = localStorage.getItem(storageKey);
       if (storedAdvice) {
         const advice = JSON.parse(storedAdvice);
         const updatedAdvice = advice.filter((entry: AdviceEntry) => entry.id !== id);
-        localStorage.setItem('advice', JSON.stringify(updatedAdvice));
+        localStorage.setItem(storageKey, JSON.stringify(updatedAdvice));
       }
     } catch (error) {
       console.error('Error deleting advice:', error);

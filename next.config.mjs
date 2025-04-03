@@ -1,19 +1,46 @@
+import { readFileSync } from 'fs';
+import path from 'path';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   eslint: {
-    // Disable ESLint during production builds
-    ignoreDuringBuilds: true,
+    // Warning errors during production builds but don't fail
+    ignoreDuringBuilds: process.env.NODE_ENV === 'development',
   },
   typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
-    ignoreBuildErrors: true,
+    // Only allow type errors to be ignored in development
+    ignoreBuildErrors: process.env.NODE_ENV === 'development',
   },
   images: {
-    domains: ['localhost'],
+    remotePatterns: [
+      {
+        protocol: process.env.NODE_ENV === 'production' ? 'https' : 'http',
+        hostname: process.env.NEXT_PUBLIC_DOMAIN || 'localhost',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.imgur.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.amazonaws.com',
+      }
+    ],
+    formats: ['image/avif', 'image/webp'],
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   webpack(config) {
     // Grab the existing rule that handles SVG imports
@@ -60,6 +87,23 @@ const nextConfig = {
   },
   // Enable SWC minification
   swcMinify: true,
+  // Cross-platform handling for environment variables and path separators
+  env: {
+    // Use forward slashes for paths in all environments
+    APP_ENV: process.env.NODE_ENV || 'development',
+    PATH_SEPARATOR: '/',
+  },
+  // Add trailing slashes for consistent URLs
+  trailingSlash: true,
+  // Enhanced handling for cross-platform paths in build output
+  // for public assets and API routes
+  crossOrigin: 'anonymous',
+  
+  // Production optimizations
+  productionBrowserSourceMaps: false, // Disable source maps in production for better performance
+  compress: true, // Enable gzip compression
+  poweredByHeader: false, // Remove X-Powered-By header for security
+  generateEtags: true, // Generate ETag headers for cache validation
 };
 
 export default nextConfig;

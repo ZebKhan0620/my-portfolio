@@ -41,7 +41,7 @@ export default function useAdminAuth(): UseAdminAuthReturn {
       // Update state
       setIsAdmin(false);
       
-      // Redirect to login page
+      // Redirect to login page - make sure to use the non-localized path
       window.location.href = '/admin/login';
     } catch (error) {
       throw error;

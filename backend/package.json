@@ -11,8 +11,8 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "prod:build": "npm run build",
-    "prod:start": "SET NODE_ENV=production && node dist/server.js",
-    "prod:prepare": "npm run build && mkdir -p logs data",
+    "prod:start": "cross-env NODE_ENV=production node dist/server.js",
+    "prod:prepare": "npm run build && node -e \"require('fs').mkdirSync('logs', { recursive: true }); require('fs').mkdirSync('data', { recursive: true });\"",
     "clean": "cleanup.bat"
   },
   "keywords": [
@@ -48,6 +48,7 @@
     "@types/nodemailer": "^6.4.17",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

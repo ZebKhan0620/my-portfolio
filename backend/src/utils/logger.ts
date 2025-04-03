@@ -1,7 +1,22 @@
 import winston from 'winston';
 import { productionConfig } from '../config/production';
+import fs from 'fs';
+import path from 'path';
 
 const config = productionConfig.logging;
+
+// Ensure log directories exist and use absolute paths
+const rootDir = path.resolve('./');
+const logDir = path.join(rootDir, 'logs');
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir, { recursive: true });
+}
+
+// Use absolute paths for log files
+const errorLogPath = path.join(logDir, 'error.log');
+const combinedLogPath = path.join(logDir, 'combined.log');
+const exceptionsLogPath = path.join(logDir, 'exceptions.log');
+const rejectionsLogPath = path.join(logDir, 'rejections.log');
 
 // Custom format for production logs
 const productionFormat = winston.format.combine(
@@ -26,14 +41,14 @@ const logger = winston.createLogger({
   transports: [
     // Error logs
     new winston.transports.File({
-      filename: config.errorLogPath,
+      filename: errorLogPath,
       level: 'error',
       maxsize: 5242880, // 5MB
       maxFiles: 5,
     }),
     // Combined logs
     new winston.transports.File({
-      filename: config.combinedLogPath,
+      filename: combinedLogPath,
       maxsize: 5242880, // 5MB
       maxFiles: 5,
     }),
@@ -41,14 +56,14 @@ const logger = winston.createLogger({
   // Handle uncaught exceptions and unhandled rejections
   exceptionHandlers: [
     new winston.transports.File({
-      filename: 'logs/exceptions.log',
+      filename: exceptionsLogPath,
       maxsize: 5242880, // 5MB
       maxFiles: 5,
     }),
   ],
   rejectionHandlers: [
     new winston.transports.File({
-      filename: 'logs/rejections.log',
+      filename: rejectionsLogPath,
       maxsize: 5242880, // 5MB
       maxFiles: 5,
     }),

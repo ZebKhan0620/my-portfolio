@@ -1,31 +1,28 @@
 @echo off
-REM Windows script to start the application in production mode
+REM Start the backend server in production mode
 
-echo Starting application in production mode...
+echo Starting backend server in production mode...
+echo.
 
-REM Copy production env file if it exists
-if exist .env.production (
-    echo Using production environment variables...
-    copy .env.production .env /Y > nul
-) else (
-    echo Warning: .env.production file not found!
-    echo Creating a basic .env file...
-    (
-        echo NODE_ENV=production
-        echo PORT=3001
-    ) > .env
+REM Check if environment variables are set
+if not exist .env (
+    echo Error: .env file not found. Please create a .env file with your configuration.
+    exit /b 1
 )
 
 REM Check if build exists
 if not exist dist\server.js (
-    echo Error: Build not found. Please run prep-production.bat first.
+    echo Error: Build not found. Please run 'npm run prod:build' first.
     exit /b 1
 )
 
-REM Start the application
-echo Starting server...
-set PORT=3001
-node dist/server.js
+REM Create logs directory if it doesn't exist
+if not exist logs mkdir logs
+if not exist data mkdir data
 
-REM This line will be reached only if the server crashes
-echo Server stopped. 
+REM Start the server in production mode
+echo Starting server...
+npm run prod:start
+
+echo.
+echo Server is running in production mode.

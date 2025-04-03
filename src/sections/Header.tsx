@@ -1,10 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export const Header = () => {
   const [activeSection, setActiveSection] = useState('home');
-  const [isMobile, setIsMobile] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   // Handle smooth scrolling when clicking navigation links
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -15,12 +19,20 @@ export const Header = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
       setActiveSection(sectionId);
+      
+      // Close mobile menu if open
+      if (mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
     }
   };
 
   // Update active section based on scroll position
   useEffect(() => {
     const handleScrollPosition = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 20);
+      
       const sections = ['home', 'projects', 'about', 'advice', 'contact'];
       
       for (const section of sections) {
@@ -38,11 +50,15 @@ export const Header = () => {
 
     // Check screen size for responsive adjustments
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 640);
+      // Close mobile menu on resize to larger screen
+      if (window.innerWidth >= 768 && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
     };
 
-    // Initial check
+    // Initial checks
     checkScreenSize();
+    handleScrollPosition();
 
     window.addEventListener('scroll', handleScrollPosition);
     window.addEventListener('resize', checkScreenSize);
@@ -51,52 +67,115 @@ export const Header = () => {
       window.removeEventListener('scroll', handleScrollPosition);
       window.removeEventListener('resize', checkScreenSize);
     };
-  }, []);
+  }, [mobileMenuOpen]);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node) && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
+
+  const navigationItems = [
+    { id: 'home', label: t('nav.home') },
+    { id: 'projects', label: t('nav.projects') },
+    { id: 'about', label: t('nav.about') },
+    { id: 'advice', label: t('nav.advice') },
+    { id: 'contact', label: t('nav.contact') }
+  ];
 
   return (
-    <div className="flex justify-center items-center fixed left-[50%] translate-x-[-50%] top-2 sm:top-3 z-10">
-      <nav className="flex gap-0.5 sm:gap-1 p-0.5 backdrop-blur border border-white/15 rounded-full bg-white/10 overflow-hidden">
-        <a 
-          href="#home" 
-          onClick={(e) => handleScroll(e, 'home')}
-          className={`nav-item px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 text-xs sm:text-sm ${activeSection === 'home' ? 'bg-white text-gray-900 hover:bg-white/70 hover:text-gray-900' : ''}`}
-          aria-current={activeSection === 'home' ? 'page' : undefined}
-        >
-          Home
-        </a>
-        <a 
-          href="#projects" 
-          onClick={(e) => handleScroll(e, 'projects')}
-          className={`nav-item px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 text-xs sm:text-sm ${activeSection === 'projects' ? 'bg-white text-gray-900 hover:bg-white/70 hover:text-gray-900' : ''}`}
-          aria-current={activeSection === 'projects' ? 'page' : undefined}
-        >
-          Projects
-        </a>
-        <a 
-          href="#about" 
-          onClick={(e) => handleScroll(e, 'about')}
-          className={`nav-item px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 text-xs sm:text-sm ${activeSection === 'about' ? 'bg-white text-gray-900 hover:bg-white/70 hover:text-gray-900' : ''}`}
-          aria-current={activeSection === 'about' ? 'page' : undefined}
-        >
-          About
-        </a>
-        <a 
-          href="#advice" 
-          onClick={(e) => handleScroll(e, 'advice')}
-          className={`nav-item px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 text-xs sm:text-sm ${activeSection === 'advice' ? 'bg-white text-gray-900 hover:bg-white/70 hover:text-gray-900' : ''}`}
-          aria-current={activeSection === 'advice' ? 'page' : undefined}
-        >
-          Advice
-        </a>
-        <a 
-          href="#contact" 
-          onClick={(e) => handleScroll(e, 'contact')}
-          className={`nav-item px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 text-xs sm:text-sm ${activeSection === 'contact' ? 'bg-white text-gray-900 hover:bg-white/70 hover:text-gray-900' : ''}`}
-          aria-current={activeSection === 'contact' ? 'page' : undefined}
-        >
-          Contact
-        </a>
-      </nav>
-    </div>
+    <header className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolled ? 'py-2 bg-gray-900/90 backdrop-blur shadow-md' : 'py-3 bg-transparent'}`}>
+      <div className="container mx-auto px-4 xs:px-4 sm:px-6 md:px-8 flex justify-center">
+        {/* Desktop Navigation (md and larger) */}
+        <nav className={`hidden md:flex gap-1 p-0.5 rounded-full ${isScrolled ? 'bg-gray-800/80 border border-white/10' : 'bg-white/10 backdrop-blur border border-white/15'} overflow-hidden transition-all duration-300`}>
+          {navigationItems.map(item => (
+            <a 
+              key={item.id}
+              href={`#${item.id}`}
+              onClick={(e) => handleScroll(e, item.id)}
+              className={`relative px-4 py-1.5 text-sm transition-all duration-300 ${
+                activeSection === item.id 
+                  ? 'text-gray-900 font-medium' 
+                  : 'text-white hover:text-white/80'
+              }`}
+              aria-current={activeSection === item.id ? 'page' : undefined}
+            >
+              {activeSection === item.id && (
+                <span className="absolute inset-0 bg-white rounded-full -z-10"></span>
+              )}
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        
+        {/* Tablet Navigation (sm to md) */}
+        <nav className={`hidden sm:flex md:hidden gap-0.5 p-0.5 rounded-full ${isScrolled ? 'bg-gray-800/80 border border-white/10' : 'bg-white/10 backdrop-blur border border-white/15'} overflow-hidden transition-all duration-300`}>
+          {navigationItems.map(item => (
+            <a 
+              key={item.id}
+              href={`#${item.id}`}
+              onClick={(e) => handleScroll(e, item.id)}
+              className={`relative px-2 py-1.5 text-xs transition-all duration-300 ${
+                activeSection === item.id 
+                  ? 'text-gray-900 font-medium' 
+                  : 'text-white hover:text-white/80'
+              }`}
+              aria-current={activeSection === item.id ? 'page' : undefined}
+            >
+              {activeSection === item.id && (
+                <span className="absolute inset-0 bg-white rounded-full -z-10"></span>
+              )}
+              {item.label}
+            </a>
+          ))}
+        </nav>
+
+        {/* Mobile Navigation (up to sm) */}
+        <div className="sm:hidden w-full flex justify-between items-center pr-16">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`flex flex-col justify-center items-center w-10 h-10 rounded-full ${isScrolled ? 'bg-gray-800' : 'bg-white/10 backdrop-blur'} border border-white/15 focus:outline-none`}
+            aria-expanded={mobileMenuOpen}
+            aria-label="Toggle navigation menu"
+          >
+            <span className={`block w-5 h-0.5 bg-white mb-1 transition-all duration-300 ${mobileMenuOpen ? 'transform rotate-45 translate-y-1.5' : ''}`}></span>
+            <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+            <span className={`block w-5 h-0.5 bg-white mt-1 transition-all duration-300 ${mobileMenuOpen ? 'transform -rotate-45 -translate-y-1.5' : ''}`}></span>
+          </button>
+
+          {/* Mobile Menu Dropdown */}
+          <div 
+            ref={mobileMenuRef}
+            className={`absolute top-full left-4 mt-2 w-56 py-2 rounded-lg bg-gray-900/95 backdrop-blur-md border border-white/10 shadow-xl transform transition-all duration-300 ${
+              mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
+            }`}
+          >
+            {navigationItems.map(item => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={(e) => handleScroll(e, item.id)}
+                className={`block px-4 py-2 text-sm ${
+                  activeSection === item.id 
+                    ? 'bg-white/10 text-white font-medium' 
+                    : 'text-white/80 hover:bg-white/5'
+                }`}
+                aria-current={activeSection === item.id ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </header>
   );
 };

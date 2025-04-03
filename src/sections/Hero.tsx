@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import memojiImage from "@/assets/images/memoji-computer.png";
 import Image from "next/image";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
@@ -15,9 +15,10 @@ import {
   getResponsiveOrbitConfigs
 } from '@/config/animations';
 import { useWindowSize } from '@/hooks/useWindowSize';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Define the skills to be displayed in the typing animation
-const SKILLS = [
+const SKILLS_EN = [
   "Frontend Development",
   "PHP Backend",
   "Responsive Design",
@@ -25,7 +26,22 @@ const SKILLS = [
   "Full-stack Solutions",
 ];
 
+const SKILLS_JA = [
+  "フロントエンド開発",
+  "PHPバックエンド",
+  "レスポンシブデザイン",
+  "UI/UX実装",
+  "フルスタックソリューション"
+];
+
 export const HeroSection = () => {
+  const { t, locale } = useLanguage();
+  
+  // Get skills based on current language
+  const skills = useMemo(() => {
+    return locale === 'ja' ? SKILLS_JA : SKILLS_EN;
+  }, [locale]);
+  
   const [currentSkill, setCurrentSkill] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
   const [displayedText, setDisplayedText] = useState('');
@@ -113,37 +129,50 @@ export const HeroSection = () => {
   // Typing animation effect
   useEffect(() => {
     if (prefersReducedMotion) {
-      setDisplayedText(SKILLS[currentSkill]);
+      setDisplayedText(skills[currentSkill]);
       return;
     }
     
     let timeout: NodeJS.Timeout;
-    const skill = SKILLS[currentSkill];
+    const skill = skills[currentSkill];
+    
+    // Adjust the typing speed based on the language
+    // Japanese characters need a bit more time to be readable
+    const typingSpeed = locale === 'ja' ? 150 : 120;
+    const deletingSpeed = locale === 'ja' ? 80 : 60;
+    const pauseDuration = 2000; // longer pause at the end of typing
     
     if (isTyping) {
       if (displayedText.length < skill.length) {
         timeout = setTimeout(() => {
           setDisplayedText(skill.substring(0, displayedText.length + 1));
-        }, 100); // typing speed
+        }, typingSpeed);
       } else {
         setIsTyping(false);
         timeout = setTimeout(() => {
           setIsTyping(false);
-        }, 1500); // longer pause at the end of typing
+        }, pauseDuration);
       }
     } else {
       if (displayedText.length > 0) {
         timeout = setTimeout(() => {
           setDisplayedText(displayedText.substring(0, displayedText.length - 1));
-        }, 50); // deleting speed (faster than typing)
+        }, deletingSpeed);
       } else {
         setIsTyping(true);
-        setCurrentSkill((currentSkill + 1) % SKILLS.length);
+        setCurrentSkill((currentSkill + 1) % skills.length);
       }
     }
     
     return () => clearTimeout(timeout);
-  }, [displayedText, isTyping, currentSkill, prefersReducedMotion]);
+  }, [displayedText, isTyping, currentSkill, prefersReducedMotion, skills, locale]);
+
+  // Reset the animation when the language changes
+  useEffect(() => {
+    setCurrentSkill(0);
+    setIsTyping(true);
+    setDisplayedText('');
+  }, [locale]);
 
   // Smooth scrolling function for navigation
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -206,7 +235,7 @@ export const HeroSection = () => {
         spinDuration="3s"
         animationDirection="counter-clockwise"
         interactive
-        onClick={() => console.log('Sparkle clicked!')}
+        onClick={() => {}}
         isDecorative={false}
         description="Decorative sparkle element"
         easing="linear"
@@ -332,7 +361,7 @@ export const HeroSection = () => {
         href="#content" 
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white text-gray-900 px-4 py-2 rounded-lg z-50"
       >
-        Skip to main content
+        {t('hero.skipToContent')}
       </a>
       
       {/* Background elements */}
@@ -388,7 +417,7 @@ export const HeroSection = () => {
               <div className="bg-green-500 absolute rounded-full inset-0 animate-ping-large"></div>
             </div>
             <div className="font-medium">
-              Available for new opportunities
+              {t('hero.availableStatus')}
             </div>
           </motion.div>
         </div>
@@ -400,16 +429,16 @@ export const HeroSection = () => {
           transition={{ duration: 0.7, delay: 0.5 }}
         >
           <h1 className="font-serif text-base xs:text-lg sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl text-center mt-3 xs:mt-4 sm:mt-6 md:mt-8 tracking-wide">
-            ZEB KHAN
+            {t('hero.name')}
           </h1>
           <h2 className="font-serif text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-center mt-1 xs:mt-2 tracking-wide text-gradient">
-            Full-stack Developer
+            {t('hero.jobTitle')}
           </h2>
           
           {/* Typing animation */}
           <div className="h-5 xs:h-6 sm:h-7 md:h-8 lg:h-10 flex justify-center items-center mt-1 xs:mt-2">
             <p className="font-mono text-center text-white/80 text-[10px] xs:text-xs sm:text-sm md:text-base">
-              <span className="inline-block">Specializing in&nbsp; </span>
+              <span className="inline-block">{t('hero.skills.prefix')}&nbsp; </span>
               <span className="inline-block text-emerald-300 font-semibold">
                 {displayedText}
                 <span className={`typing-cursor ${isTyping ? 'animate-pulse' : 'opacity-0'}`}></span>
@@ -418,8 +447,7 @@ export const HeroSection = () => {
           </div>
           
           <p className="text-center mt-2 xs:mt-3 md:mt-4 text-white/60 text-[10px] xs:text-xs sm:text-sm md:text-base px-2 xs:px-4 sm:px-0">
-            I specialize in building responsive web applications with modern frontend technologies
-            and robust backend systems. Currently studying at HAL Tokyo.
+            {t('hero.description')}
           </p>
         </motion.div>
         
@@ -435,7 +463,7 @@ export const HeroSection = () => {
             aria-label="View my projects"
             className="btn-hover-effect group w-full sm:w-auto flex justify-center items-center gap-1.5 xs:gap-2 border border-white/15 px-2.5 xs:px-3.5 sm:px-4 md:px-6 py-1.5 xs:py-2 sm:py-2.5 md:py-3 rounded-xl hover:bg-white/10 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 text-xs xs:text-sm"
           >
-            <span className="font-semibold">View My Projects</span>
+            <span className="font-semibold">{t('hero.viewProjects')}</span>
             <ArrowDown className="size-3 xs:size-3.5 sm:size-3.5 md:size-4 transition-transform duration-300 group-hover:translate-y-1" />
           </Link>
           <Link 
@@ -445,7 +473,7 @@ export const HeroSection = () => {
             className="btn-hover-effect w-full sm:w-auto flex justify-center items-center gap-1.5 xs:gap-2 border border-white bg-white text-gray-900 px-2.5 xs:px-3.5 sm:px-4 md:px-6 py-1.5 xs:py-2 sm:py-2.5 md:py-3 rounded-xl hover:bg-white/90 hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white text-xs xs:text-sm shadow-sm"
           >
             <span role="img" aria-label="wave emoji" className="text-sm xs:text-base sm:text-base md:text-lg">🙌</span>
-            <span className="font-semibold">Let's Connect</span>
+            <span className="font-semibold">{t('hero.connect')}</span>
           </Link>
         </motion.div>
       </div>
@@ -460,7 +488,7 @@ export const HeroSection = () => {
         >
           <span className="text-white/60 text-xs xs:text-sm tracking-wide font-medium mb-1 xs:mb-2 flex items-center gap-1 xs:gap-2">
             <ArrowDown className="size-2.5 xs:size-3 text-emerald-300" />
-            <span className="hidden lg:inline text-xs md:text-sm">Scroll to explore</span>
+            <span className="hidden lg:inline text-xs md:text-sm">{t('hero.scrollToExplore')}</span>
           </span>
           <div className="w-0.5 xs:w-0.5 md:w-1 h-8 xs:h-10 md:h-16 bg-gradient-to-b from-white/5 to-white/15 rounded-full relative overflow-hidden">
             <div className="absolute top-0 w-full bg-gradient-to-b from-emerald-300 to-sky-400 h-1/4 xs:h-1/3 md:h-1/2 rounded-full animate-scroll-indicator"></div>

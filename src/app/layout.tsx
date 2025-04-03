@@ -1,40 +1,26 @@
-import type { Metadata } from "next";
-import { Inter, Calistoga } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { twMerge } from "tailwind-merge";
-import dynamic from "next/dynamic";
-
-// Dynamically import the VisitorCounter with no SSR to avoid hydration issues
-const VisitorCounter = dynamic(() => import("@/components/VisitorCounter"), { ssr: false });
+import WebVitalsMonitor from "@/components/WebVitalsMonitor";
+import LanguageSelectionPrompt from "@/components/LanguageSelectionPrompt";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-const calistoga = Calistoga({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  weight: "400",
-});
 
-export const metadata: Metadata = {
-  title: "My Portfolio",
-  description: "Created with the help of Frontend Tribe",
+export const metadata = {
+  title: "Portfolio",
+  description: "My professional portfolio",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="ja">
-      <body
-        className={twMerge(
-          inter.className,
-          // Remove calistoga.className here if you want the whole site to use Inter.
-          "bg-gray-900 text-white antialiased font-sans" // This applies the Inter font using --font-sans.
-        )}
-      >
+    <html lang="en">
+      <body className={`${inter.className} bg-gray-900 text-white`}>
+        <WebVitalsMonitor />
+        <LanguageSelectionPrompt />
         {children}
-        <VisitorCounter />
       </body>
     </html>
   );

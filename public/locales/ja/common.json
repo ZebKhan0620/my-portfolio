@@ -1,0 +1,236 @@
+{
+  "language": "日本語",
+  "nav": {
+    "home": "ホーム",
+    "projects": "プロジェクト",
+    "about": "私について",
+    "advice": "アドバイス",
+    "contact": "お問い合わせ"
+  },
+  "header": {
+    "languageSelection": "言語を選択してください"
+  },
+  "hero": {
+    "greeting": "こんにちは、ゼブ・カーンです",
+    "role": "フロントエンド開発者",
+    "intro": "ユーザーフレンドリーなウェブアプリケーションの構築に情熱を持っています",
+    "name": "ゼブ・カーン",
+    "jobTitle": "フルスタック開発者",
+    "skills": {
+      "prefix": "専門分野：",
+      "list": [
+        "フロントエンド開発",
+        "PHPバックエンド",
+        "レスポンシブデザイン",
+        "UI/UX実装",
+        "フルスタックソリューション"
+      ]
+    },
+    "description": "最新のフロントエンド技術と堅牢なバックエンドシステムを用いた、レスポンシブなウェブアプリケーションの開発を専門としています。現在、HAL東京で学んでいます。",
+    "availableStatus": "プロフェッショナルな機会を求めています",
+    "viewProjects": "プロジェクトを見る",
+    "connect": "お問い合わせ",
+    "scrollToExplore": "スクロールして探索",
+    "skipToContent": "メインコンテンツへスキップ"
+  },
+  "projects": {
+    "title": "注目の",
+    "eyebrow": "プロジェクト",
+    "description": "私が開発した革新的なソリューションと最新の制作物のご紹介",
+    "hoverToExplore": "ホバーして探索",
+    "websitePreview": "ウェブサイトプレビュー",
+    "projectShowcase": "プロジェクト紹介",
+    "liveWebsite": "公開中",
+    "comingSoon": "近日公開",
+    "viewDetails": "詳細を見る",
+    "viewDetailsFor": "の詳細を見る",
+    "viewLiveDemo": "ライブデモを見る",
+    "viewLiveDemoFor": "のライブデモを見る -",
+    "demoComingSoon": "デモは近日公開",
+    "viewCode": "コードを見る",
+    "viewCodeFor": "のコードを見る -",
+    "codePrivate": "非公開コード",
+    "closeProjectDetails": "プロジェクト詳細を閉じる",
+    "awardWinner": "受賞歴あり",
+    "hoverToView": "ホバーして表示",
+    "projectDescription": "プロジェクト概要",
+    "keyFeatures": "主な機能",
+    "keyResults": "主な成果"
+  },
+  "about": {
+    "title": "私について",
+    "eyebrow": "私について",
+    "description": "私はゼブ・カーンと申します。パキスタン出身のフルスタック開発者で、現在HAL東京で学んでいます。ユーザー中心のウェブアプリケーション制作に専念し、フロントエンドとバックエンドの両方の専門知識を継続的に拡張しています。",
+    "journey": {
+      "title": "私の経歴",
+      "developer": "フロントエンド開発者",
+      "developerDescription": "直感的でレスポンシブなユーザーインターフェースの作成",
+      "college": "HAL東京",
+      "award": "企画力賞受賞 - カーマーケットプレイスプロジェクト",
+      "innovation": "技術革新",
+      "innovationDescription": "高度な機能と優れたUXの統合"
+    },
+    "location": {
+      "memojiAlt": "私のミー文字",
+      "college": "HAL東京"
+    },
+    "philosophy": {
+      "title": "私の哲学",
+      "description": "私の専門的アプローチは、プレッシャー下での冷静さの維持と体系的な問題解決戦略の実施に重点を置いています。課題に直面した際には粘り強さを示し、プロフェッショナルとしての成長過程で一貫性を大切にしています。",
+      "bookAlt": "本の表紙"
+    },
+    "toolbox": {
+      "title": "使用技術",
+      "description": "卓越したデジタル体験を創出するために活用する技術とフレームワーク。"
+    },
+    "hobbies": {
+      "title": "趣味",
+      "description": "コーディングをしていない時に楽しんでいること。",
+      "interactiveBubbles": "ドラッグ可能なインタラクティブな趣味バブル",
+      "bubbleLabel": "の趣味バブル、ドラッグ可能",
+      "reading": "読書",
+      "traveling": "旅行",
+      "gaming": "ゲーム",
+      "exercising": "運動",
+      "driving": "ドライブ",
+      "music": "音楽",
+      "hiking": "ハイキング"
+    },
+    "goals": {
+      "title": "キャリア目標",
+      "shortTerm": "短期目標",
+      "goal1": "HAL東京での学業を修了する",
+      "goal1Description": "現在の焦点",
+      "goal2": "フロントエンド開発スキルをマスターする",
+      "goal2Description": "技術的成長",
+      "goal3": "フルスタック開発のプロフェッショナルとしての地位を確立する",
+      "goal3Description": "キャリア移行",
+      "longTerm": "長期目標",
+      "goal4": "3〜4年間フロントエンド専門分野に集中する",
+      "goal4Description": "専門化フェーズ",
+      "goal5": "より深いバックエンドアーキテクチャへの移行",
+      "goal5Description": "スキル拡張",
+      "goal6": "多才なフルスタック開発のプロフェッショナルになる",
+      "goal6Description": "キャリアマイルストーン"
+    },
+    "achievements": {
+      "title": "実績",
+      "ielts": "IELTS アカデミック",
+      "ieltsScore": "スコア: 6.5",
+      "ieltsDescription": "国際英語力テストシステム",
+      "halAward": "HAL東京賞",
+      "halAwardType": "企画力賞受賞",
+      "viewCertificate": "証明書を表示",
+      "certificateAlt": "HAL東京賞証明書",
+      "awardDescription": "優れた企画力と概念設計スキルが認められました"
+    }
+  },
+  "contact": {
+    "title": {
+      "firstPart": "お問い合わせ",
+      "highlight": "ください"
+    },
+    "subtitle": "革新的なアイデアを形にするお手伝いをいたします。優れたデジタルソリューションに関する潜在的な協力について話し合う機会を歓迎いたします。",
+    "form": {
+      "title": "お問い合わせ",
+      "subtitle": "迅速なご返信のため、下記フォームにご記入ください",
+      "name": {
+        "label": "お名前",
+        "placeholder": "あなたのお名前"
+      },
+      "email": {
+        "label": "メールアドレス",
+        "placeholder": "your.email@example.com"
+      },
+      "message": {
+        "label": "メッセージ",
+        "placeholder": "プロジェクトの要件やお問い合わせについて教えてください..."
+      },
+      "button": {
+        "submit": "送信",
+        "sending": "送信中..."
+      },
+      "success": {
+        "title": "送信完了",
+        "message": "お問い合わせいただきありがとうございます。迅速にご返信いたします。"
+      },
+      "error": "メッセージの送信ができませんでした。後ほど再度お試しください。"
+    },
+    "details": {
+      "title": "連絡先情報",
+      "email": {
+        "title": "メール"
+      },
+      "github": {
+        "title": "GitHub"
+      },
+      "location": {
+        "title": "所在地",
+        "place": "HAL東京"
+      },
+      "status": {
+        "label": "ステータス",
+        "badge1": "学生開発者",
+        "badge2": "フルスタック専攻",
+        "badge3": "インターンシップ可能"
+      },
+      "available": {
+        "title": "対応可能",
+        "tag1": "正社員ポジション",
+        "tag2": "フルスタック開発",
+        "tag3": "フロントエンド開発"
+      }
+    },
+    "quickBar": {
+      "title": "プロジェクトを開始する準備はできていますか？",
+      "subtitle": "協力的な開発を通じてビジョンを現実にするお手伝いをさせてください。",
+      "button": "直接お問い合わせ"
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} ゼブ・カーン。全ての権利を保有します。"
+  },
+  "languageSwitcher": {
+    "toggle": "英語に切り替える",
+    "chooseLanguage": "言語を選択",
+    "en": "英語",
+    "ja": "日本語"
+  },
+  "adviceWall": {
+    "title": "アドバイス",
+    "titleSuffix": "ウォール",
+    "description": "業界の専門家との間で洞察、フィードバック、推奨事項を交換しましょう。私のプロジェクトに関するご意見や、あなたのキャリア発展を加速させたであろう助言を自由に共有してください。",
+    "form": {
+      "title": "専門的見解を投稿",
+      "name": "お名前",
+      "namePlaceholder": "あなたのお名前",
+      "role": "専門職種",
+      "rolePlaceholder": "開発者、デザイナー、採用担当者など",
+      "message": "専門的洞察",
+      "messagePlaceholder": "価値ある洞察、私のプロジェクトへの建設的なフィードバック、または業界に関する推奨事項を共有してください...",
+      "cardStyle": "表示形式",
+      "requiredFields": "* 必須項目",
+      "submit": "洞察を投稿",
+      "submitting": "処理中...",
+      "successMessage": "専門的な洞察を共有いただき、ありがとうございます！",
+      "errorMessage": "送信処理ができませんでした。再度お試しください。"
+    },
+    "cardTypes": {
+      "card": "標準",
+      "paper": "文書メモ",
+      "glass": "コンテンポラリー",
+      "neon": "高視認性",
+      "lcd": "デジタル表示",
+      "terminal": "コマンドライン",
+      "ticker": "スクロールバナー"
+    },
+    "filters": {
+      "all": "すべての視点",
+      "developer": "開発専門家",
+      "designer": "デザイン専門家",
+      "manager": "リーダーシップ",
+      "student": "次世代専門家",
+      "recruiter": "人材獲得担当者"
+    }
+  }
+} 
