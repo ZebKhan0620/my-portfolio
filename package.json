@@ -7,7 +7,8 @@
     "build": "next build",
     "prebuild": "node scripts/check-console-logs.js",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "node scripts/deploy.js"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.6.1",
@@ -55,6 +56,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "json-loader": "^0.5.7",
+    "json5": "^2.2.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"

@@ -145,6 +145,7 @@ export function LanguageProvider({
     
     // Load the common namespace by default
     loadNamespaceInternal('common');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localeState]);
   
   // Function to load a specific namespace
@@ -267,7 +268,7 @@ export function LanguageProvider({
     logger.info(`Changed locale from ${localeState} to ${newLocale}`);
     
     // Navigate to the new locale version of the current path
-    const newPath = formatLocalePathname(pathname, newLocale);
+    const newPath = formatLocalePathname(pathname || '', newLocale);
     router.push(newPath);
     
     // Update state

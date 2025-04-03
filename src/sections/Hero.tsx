@@ -128,19 +128,18 @@ export const HeroSection = () => {
   
   // Typing animation effect
   useEffect(() => {
-    if (prefersReducedMotion) {
-      setDisplayedText(skills[currentSkill]);
-      return;
-    }
-    
-    let timeout: NodeJS.Timeout;
-    const skill = skills[currentSkill];
-    
-    // Adjust the typing speed based on the language
     // Japanese characters need a bit more time to be readable
     const typingSpeed = locale === 'ja' ? 150 : 120;
     const deletingSpeed = locale === 'ja' ? 80 : 60;
     const pauseDuration = 2000; // longer pause at the end of typing
+
+    // Skip animation if reduced motion is preferred
+    if (prefersReducedMotion) {
+      return () => {};
+    }
+
+    let timeout: NodeJS.Timeout;
+    const skill = skills[currentSkill];
     
     if (isTyping) {
       if (displayedText.length < skill.length) {
@@ -148,10 +147,12 @@ export const HeroSection = () => {
           setDisplayedText(skill.substring(0, displayedText.length + 1));
         }, typingSpeed);
       } else {
-        setIsTyping(false);
-        timeout = setTimeout(() => {
-          setIsTyping(false);
-        }, pauseDuration);
+        // Only set isTyping to false once
+        if (isTyping) {
+          timeout = setTimeout(() => {
+            setIsTyping(false);
+          }, pauseDuration);
+        }
       }
     } else {
       if (displayedText.length > 0) {
@@ -159,13 +160,17 @@ export const HeroSection = () => {
           setDisplayedText(displayedText.substring(0, displayedText.length - 1));
         }, deletingSpeed);
       } else {
-        setIsTyping(true);
-        setCurrentSkill((currentSkill + 1) % skills.length);
+        // Only change skill and typing state once when text is empty
+        if (!isTyping && displayedText.length === 0) {
+          setIsTyping(true);
+          setCurrentSkill((currentSkill + 1) % skills.length);
+        }
       }
     }
     
     return () => clearTimeout(timeout);
-  }, [displayedText, isTyping, currentSkill, prefersReducedMotion, skills, locale]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayedText, isTyping, currentSkill, skills, locale]);
 
   // Reset the animation when the language changes
   useEffect(() => {

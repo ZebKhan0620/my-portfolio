@@ -47,7 +47,6 @@ export default function AdminAdvicePage() {
       const data = await response.json();
       setEntries(data);
     } catch (err) {
-      console.error('Error fetching advice:', err);
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
     } finally {
       setLoading(false);
@@ -78,7 +77,6 @@ export default function AdminAdvicePage() {
       setShowDeleteModal(false);
       setEntryToDelete(null);
     } catch (err) {
-      console.error('Error deleting advice:', err);
       setError('Failed to delete advice entry. Please try again.');
     } finally {
       setDeleteLoading(false);

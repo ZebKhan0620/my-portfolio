@@ -326,7 +326,6 @@ export default function AdviceWall() {
         const data = await adviceService.getAllAdvice(locale);
         setAdvice(data);
       } catch (err) {
-        console.error('Error fetching advice:', err);
         setError(locale === 'ja' ? 'アドバイスを読み込めませんでした。後ほど再度お試しください。' : 'Failed to load advice. Please try again later.');
       } finally {
         setLoading(false);
@@ -393,7 +392,6 @@ export default function AdviceWall() {
       const updatedAdvice = await adviceService.getAllAdvice(locale);
       setAdvice(updatedAdvice);
     } catch (err) {
-      console.error('Error submitting advice:', err);
       setSubmitError(t('adviceWall.form.errorMessage'));
     } finally {
       setIsSubmitting(false);

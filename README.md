@@ -20,7 +20,33 @@ A modern, responsive portfolio website built with Next.js, featuring an interact
 
 ## Deployment to Vercel
 
-This project is optimized for deployment to Vercel. Follow these steps to deploy:
+This project is optimized for deployment to Vercel. You can deploy using one of the following methods:
+
+### Method 1: Using the Custom Deploy Script (Recommended)
+
+This method bypasses local build errors and lets Vercel handle the build process:
+
+1. **Install Vercel CLI globally if you haven't already**
+
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Login to Vercel via CLI**
+
+   ```bash
+   vercel login
+   ```
+
+3. **Run the deploy script**
+
+   ```bash
+   npm run deploy
+   ```
+
+   The script will automatically handle the deployment process.
+
+### Method 2: Manual Deployment
 
 1. **Push your code to GitHub**
 
@@ -69,5 +95,7 @@ The application will be available at [http://localhost:3000](http://localhost:30
 
 - `GET /api/advice` - Get all advice entries
 - `POST /api/advice` - Submit a new advice entry
+- `GET /api/advice/ja` - Get all Japanese advice entries
+- `POST /api/advice/ja` - Submit a new Japanese advice entry
 - `GET /api/projects` - Get all projects
 - `POST /api/contact` - Submit a contact form message

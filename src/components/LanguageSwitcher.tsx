@@ -11,12 +11,16 @@ export default function LanguageSwitcher() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   
-  // Create individual refs for each locale option
-  const ref0 = useRef<HTMLDivElement>(null);
-  const ref1 = useRef<HTMLDivElement>(null);
+  // Create refs for each option item
+  const createOptionRefs = () => {
+    const refs: React.RefObject<HTMLDivElement>[] = [];
+    locales.forEach(() => {
+      refs.push(useRef<HTMLDivElement>(null));
+    });
+    return refs;
+  };
   
-  // Collect all refs in an array for easier access
-  const optionsRef = useRef([ref0, ref1]);
+  const optionsRef = useRef<React.RefObject<HTMLDivElement>[]>(createOptionRefs());
   
   // Close dropdown when clicking outside
   useEffect(() => {
