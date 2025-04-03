@@ -11,16 +11,12 @@ export default function LanguageSwitcher() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   
-  // Create refs for each option item
-  const createOptionRefs = () => {
-    const refs: React.RefObject<HTMLDivElement>[] = [];
-    locales.forEach(() => {
-      refs.push(useRef<HTMLDivElement>(null));
-    });
-    return refs;
-  };
-  
-  const optionsRef = useRef<React.RefObject<HTMLDivElement>[]>(createOptionRefs());
+  // Create refs for each option item - fixed to avoid using hooks inside callbacks
+  const optionRefs = useRef<React.RefObject<HTMLDivElement>[]>(
+    Array(locales.length)
+      .fill(null)
+      .map(() => useRef<HTMLDivElement>(null))
+  );
   
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -46,7 +42,7 @@ export default function LanguageSwitcher() {
         
         // Focus the first/last option
         const targetIndex = e.key === 'ArrowDown' ? 0 : locales.length - 1;
-        optionsRef.current[targetIndex]?.current?.focus();
+        optionRefs.current[targetIndex]?.current?.focus();
       } else if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         setIsOpen(!isOpen);
@@ -63,11 +59,11 @@ export default function LanguageSwitcher() {
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
       const nextIndex = (index + 1) % locales.length;
-      optionsRef.current[nextIndex]?.current?.focus();
+      optionRefs.current[nextIndex]?.current?.focus();
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       const prevIndex = (index - 1 + locales.length) % locales.length;
-      optionsRef.current[prevIndex]?.current?.focus();
+      optionRefs.current[prevIndex]?.current?.focus();
     } else if (e.key === 'Escape') {
       e.preventDefault();
       setIsOpen(false);
@@ -159,7 +155,7 @@ export default function LanguageSwitcher() {
                 <div
                   key={localeOption}
                   id={optionId}
-                  ref={optionsRef.current[index]}
+                  ref={optionRefs.current[index]}
                   onClick={() => handleLocaleChange(localeOption as Locale)}
                   onKeyDown={(e) => handleKeyDown(e, index)}
                   className={`block px-3 sm:px-4 py-1.5 sm:py-2 text-2xs xs:text-xs sm:text-sm hover:bg-gray-700/60 transition-colors cursor-pointer ${
