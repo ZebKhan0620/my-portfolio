@@ -15,7 +15,7 @@ const footerLinks = [
   },
   {
     title: 'Email',
-    href: `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@yourdomain.com'}`,
+    href: `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@zebkhankhan.com'}`,
     icon: (
       <svg className="w-3.5 h-3.5 xs:w-4 xs:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6ZM20 6L12 11L4 6H20ZM20 18H4V8L12 13L20 8V18Z" />
@@ -25,7 +25,12 @@ const footerLinks = [
 ];
 
 export const Footer = () => {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  
+  // Create a direct copyright message based on the current locale
+  const copyrightMessage = locale === 'ja' 
+    ? `© ${new Date().getFullYear()} Zeb Khan. All rights reserved.`
+    : `© ${new Date().getFullYear()} Zeb Khan. All rights reserved.`;
   
   return (
     <footer className="relative -z-10 overflow-x-clip">
@@ -38,7 +43,7 @@ export const Footer = () => {
           <div className="flex flex-col xs:flex-row justify-between items-center gap-3 xs:gap-4">
             {/* Copyright */}
             <div className="text-white/40 text-[10px] xs:text-xs sm:text-sm">
-              {t('footer.copyright', { year: new Date().getFullYear() })}
+              {copyrightMessage}
             </div>
             
             {/* Navigation */}

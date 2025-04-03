@@ -92,10 +92,10 @@ export const Header = () => {
   ];
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolled ? 'py-2 bg-gray-900/90 backdrop-blur shadow-md' : 'py-3 bg-transparent'}`}>
+    <header className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolled ? 'py-2' : 'py-3'} bg-transparent`}>
       <div className="container mx-auto px-4 xs:px-4 sm:px-6 md:px-8 flex justify-center">
         {/* Desktop Navigation (md and larger) */}
-        <nav className={`hidden md:flex gap-1 p-0.5 rounded-full ${isScrolled ? 'bg-gray-800/80 border border-white/10' : 'bg-white/10 backdrop-blur border border-white/15'} overflow-hidden transition-all duration-300`}>
+        <nav className={`hidden md:flex gap-1 p-0.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/15 overflow-hidden transition-all duration-300`}>
           {navigationItems.map(item => (
             <a 
               key={item.id}
@@ -117,7 +117,7 @@ export const Header = () => {
         </nav>
         
         {/* Tablet Navigation (sm to md) */}
-        <nav className={`hidden sm:flex md:hidden gap-0.5 p-0.5 rounded-full ${isScrolled ? 'bg-gray-800/80 border border-white/10' : 'bg-white/10 backdrop-blur border border-white/15'} overflow-hidden transition-all duration-300`}>
+        <nav className={`hidden sm:flex md:hidden gap-0.5 p-0.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/15 overflow-hidden transition-all duration-300`}>
           {navigationItems.map(item => (
             <a 
               key={item.id}
@@ -142,7 +142,7 @@ export const Header = () => {
         <div className="sm:hidden w-full flex justify-between items-center pr-16">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`flex flex-col justify-center items-center w-10 h-10 rounded-full ${isScrolled ? 'bg-gray-800' : 'bg-white/10 backdrop-blur'} border border-white/15 focus:outline-none`}
+            className={`flex flex-col justify-center items-center w-10 h-10 rounded-full bg-white/5 backdrop-blur-sm border border-white/15 focus:outline-none`}
             aria-expanded={mobileMenuOpen}
             aria-label="Toggle navigation menu"
           >
@@ -154,7 +154,7 @@ export const Header = () => {
           {/* Mobile Menu Dropdown */}
           <div 
             ref={mobileMenuRef}
-            className={`absolute top-full left-4 mt-2 w-56 py-2 rounded-lg bg-gray-900/95 backdrop-blur-md border border-white/10 shadow-xl transform transition-all duration-300 ${
+            className={`absolute top-full left-4 mt-2 w-56 py-2 rounded-lg bg-gray-900/80 backdrop-blur-md border border-white/10 shadow-xl transform transition-all duration-300 sm:hidden ${
               mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
             }`}
           >

@@ -59,7 +59,7 @@ export const ScrollProgressIndicator = () => {
   return (
     <>
       {/* Progress bar - simple thin line without markers */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-transparent z-50">
+      <div className="fixed top-0 left-0 right-0 h-1 bg-transparent z-50 relative">
         <motion.div
           className="h-full bg-gradient-to-r from-emerald-300 to-sky-400 origin-left"
           style={{ scaleX }}
