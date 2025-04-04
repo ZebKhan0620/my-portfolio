@@ -1,0 +1,252 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About",
+    "advice": "Advice",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "ZEB KHAN",
+    "subtitle": "Frontend Developer",
+    "scrollToExplore": "Scroll to explore",
+    "viewProjects": "View My Projects",
+    "letsConnect": "Let's Connect",
+    "status": "Open to professional opportunities",
+    "description": "I specialize in developing responsive web applications using modern frontend technologies and robust backend systems. Currently pursuing advanced studies at HAL Tokyo.",
+    "skipToContent": "Skip to main content"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Showcasing my recent work and developed solutions",
+    "hoverToView": "Hover to view",
+    "awardWinner": "Award Winner",
+    "projectDescription": "Project Overview",
+    "keyResults": "Key Results",
+    "viewLiveDemoFor": "View Live Demo for",
+    "demoComingSoon": "Coming Soon",
+    "viewLiveDemo": "View Live Demo",
+    "viewCodeFor": "View Code for",
+    "viewCode": "View Code",
+    "codePrivate": "Code Private",
+    "viewDetails": "View Details",
+    "liveWebsite": "Live Website",
+    "projectContent": {
+      "companies": {
+        "halTokyo": "HAL Tokyo",
+        "personalProject": "Personal Project",
+        "teamProject": "Team Project"
+      },
+      "carMarketplace": {
+        "title": "Car Marketplace",
+        "description": "A comprehensive automotive marketplace featuring advanced filtering capabilities, secure user authentication, and an intuitive booking system. This full-stack application seamlessly integrates modern frontend technologies with robust backend services to deliver an exceptional car shopping experience.",
+        "results": [
+          "Implemented complete user registration with email confirmation and two-factor authentication",
+          "Developed advanced AJAX filters and comprehensive car listings system",
+          "Integrated meeting scheduling with favorites and bookmarking functionality",
+          "Created presentation-ready mode with guided tour for demonstrations in Zoom"
+        ],
+        "achievement": "HAL Tokyo Planning Award Recipient"
+      },
+      "cafeDeParis": {
+        "title": "Cafe de Paris",
+        "description": "An immersive digital experience for a French-Japanese fusion café, featuring cutting-edge WebGL effects and sophisticated animations. The platform combines artistic design with technical excellence to create a memorable, interactive showcase of the café's distinctive atmosphere.",
+        "results": [
+          "Implemented WebGL-powered dynamic mesh gradient backgrounds with custom shaders",
+          "Developed advanced GSAP animations with parallax scrolling and ScrollTrigger",
+          "Created interactive UI with physics-based spring animations and element tracking",
+          "Designed bilingual Japanese/French menu with 3D card hover effects and marquee animations"
+        ]
+      },
+      "mayu": {
+        "title": "Mayu",
+        "description": "A modern, interactive digital magazine featuring seamless transitions, dynamic hover effects, and sophisticated navigation systems. The platform incorporates article carousels, scroll-based content switching, touch gestures, and comprehensive accessibility considerations.",
+        "results": [
+          "Developed interactive web magazine with slideshow featuring preloading, autoplay, and touch gestures",
+          "Implemented advanced scroll-based UI with IntersectionObserver for dynamic header transforms",
+          "Created context-aware menu system with animated transitions and accessibility support",
+          "Designed modular JavaScript architecture with specialized controllers for UI components"
+        ]
+      },
+      "websitePreview": "Website preview",
+      "projectShowcase": "Project showcase"
+    }
+  },
+  "about": {
+    "title": "About Me",
+    "eyebrow": "About Me",
+    "description": "I am Zeb Khan, a full-stack developer from Pakistan currently pursuing advanced studies at HAL Tokyo. I am dedicated to creating user-centric web applications while continuously expanding my expertise in both frontend and backend technologies.",
+    "journey": {
+      "title": "My Journey",
+      "roles": {
+        "frontend": {
+          "title": "Front-end Developer",
+          "description": "Creating intuitive and responsive user interfaces"
+        },
+        "halTokyo": {
+          "title": "HAL Tokyo College",
+          "description": "Planning Award Winner - Car Marketplace Project"
+        },
+        "technical": {
+          "title": "Technical Innovation",
+          "description": "Integrating advanced functionality with exceptional UX"
+        }
+      }
+    },
+    "location": {
+      "title": "HAL TOKYO College"
+    },
+    "philosophy": {
+      "title": "My Philosophy",
+      "description": "My professional approach emphasizes maintaining composure under pressure and implementing methodical problem-solving strategies. I demonstrate resilience when confronting challenges and value consistency throughout my professional development."
+    },
+    "toolbox": {
+      "title": "My Toolbox",
+      "description": "Technologies and frameworks I leverage to create exceptional digital experiences."
+    },
+    "hobbies": {
+      "title": "My Hobbies",
+      "description": "When I'm not coding, here's what I enjoy doing.",
+      "items": {
+        "reading": "Reading",
+        "traveling": "Traveling",
+        "gaming": "Gaming",
+        "exercising": "Exercising",
+        "driving": "Driving",
+        "music": "Music",
+        "hiking": "Hiking"
+      }
+    },
+    "career": {
+      "title": "Career Objectives",
+      "shortTerm": {
+        "title": "Short-term Goals",
+        "goals": [
+          {
+            "text": "Complete studies at HAL Tokyo",
+            "status": "Current Focus"
+          },
+          {
+            "text": "Master frontend development skills",
+            "status": "Technical Growth"
+          },
+          {
+            "text": "Secure a position as a full-stack development professional",
+            "status": "Career Transition"
+          }
+        ]
+      },
+      "longTerm": {
+        "title": "Long-term Goals",
+        "goals": [
+          {
+            "text": "Focus on frontend specialization for 3-4 years",
+            "status": "Specialization Phase"
+          },
+          {
+            "text": "Transition to deeper backend architecture",
+            "status": "Skill Expansion"
+          },
+          {
+            "text": "Become a versatile full-stack development professional",
+            "status": "Career Milestone"
+          }
+        ]
+      }
+    },
+    "achievements": {
+      "title": "Achievements",
+      "ielts": {
+        "title": "IELTS Academic",
+        "score": "Score: 6.5",
+        "description": "International English Language Testing System"
+      },
+      "halAward": {
+        "title": "HAL Tokyo Award",
+        "badge": "Planning Award (企画力賞受賞)",
+        "viewCertificate": "View Certificate",
+        "description": "Recognized for exceptional planning and conceptual design skills"
+      }
+    }
+  },
+  "advice": {
+    "title": "Advice Wall",
+    "subtitle": "Exchange professional insights, feedback, and recommendations with fellow industry professionals. Feel free to share your thoughts on my projects or any advice that would have accelerated your professional development.",
+    "form": {
+      "title": "Contribute Your Insight",
+      "nameLabel": "Name *",
+      "namePlaceholder": "Your name",
+      "roleLabel": "Professional Role",
+      "rolePlaceholder": "Developer, Designer, Recruiter, etc.",
+      "messageLabel": "Your Professional Insight *",
+      "messagePlaceholder": "Share valuable insights, constructive feedback on my projects, or industry recommendations...",
+      "requiredFields": "* Required fields",
+      "submitButton": "Contribute Insight",
+      "processing": "Processing...",
+      "successMessage": "Thank you for sharing your professional insight!",
+      "errorMessage": "Unable to process your submission. Please try again."
+    },
+    "carousel": {
+      "previousSlide": "Previous slide",
+      "nextSlide": "Next slide",
+      "goToPage": "Go to page",
+      "emptyState": "Be the first to leave advice!"
+    },
+    "dateFormat": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "daysAgo": "days ago",
+      "created": "Created"
+    },
+    "terminal": {
+      "from": "FROM",
+      "user": "user@portfolio ~ $",
+      "cat": "cat"
+    }
+  },
+  "adviceWall": {
+    "title": "Advice Wall",
+    "eyebrow": "Insights & Feedback",
+    "description": "Exchange professional insights, feedback, and recommendations with fellow industry professionals. Feel free to share your thoughts on my projects or any advice that would have accelerated your professional development."
+  },
+  "contact": {
+    "title": "Let's connect",
+    "subtitle": "Interested in transforming concepts into reality? I welcome the opportunity to discuss potential collaboration on exceptional digital solutions.",
+    "form": {
+      "title": "Get in Touch",
+      "description": "Please complete the form below for a prompt response",
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "your.email@example.com",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Tell me about your project requirements or inquiry...",
+      "submitButton": "Send Message",
+      "submitting": "Sending Message...",
+      "successTitle": "Message Sent",
+      "successMessage": "Thank you for reaching out. I will respond to your inquiry promptly.",
+      "errorMessage": "Unable to send message. Please try again later."
+    },
+    "info": {
+      "title": "Contact Information",
+      "email": "Email",
+      "github": "GitHub",
+      "location": "Location",
+      "timezone": "UTC+5",
+      "availableFor": "Available for",
+      "availability": {
+        "fullTime": "Full-time Positions",
+        "fullStack": "Full-stack Development",
+        "frontend": "Frontend Development"
+      }
+    },
+    "cta": {
+      "title": "Ready to initiate a project?",
+      "subtitle": "Let me help bring your vision to reality through collaborative development.",
+      "button": "Contact Directly"
+    }
+  },
+  "footer": {
+    "allRightsReserved": "All rights reserved."
+  }
+} 

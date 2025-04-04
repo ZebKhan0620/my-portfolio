@@ -7,7 +7,7 @@ import { ContactSection } from '@/sections/Contact'
 import AdviceWall from '@/sections/AdviceWall';
 import { Footer } from '@/sections/Footer';
 import { ScrollProgressIndicator } from '@/components/ScrollProgressIndicator';
-import Link from 'next/link';
+import { LanguagePrompt } from '@/components/LanguagePrompt';
 
 export default function Home() {
   return (
@@ -51,17 +51,8 @@ export default function Home() {
       
       <footer>
         <Footer />
-        
-        {/* Admin link - subtle in the corner */}
-        <div className="fixed bottom-4 right-4 opacity-50 hover:opacity-100 transition-opacity">
-          <Link 
-            href="/admin" 
-            className="text-xs text-gray-500 hover:text-emerald-400 transition-colors"
-          >
-            Admin
-          </Link>
-        </div>
       </footer>
+      <LanguagePrompt />
     </div>
   );
 }

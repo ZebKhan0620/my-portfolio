@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "NEXT_DISABLE_ESLINT=1 next build",
+    "build": "cross-env next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "prebuild": "npm run lint && npm run type-check"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -14,12 +16,10 @@
     "@svgr/webpack": "^8.1.0",
     "axios": "^1.8.4",
     "clsx": "^2.1.1",
-    "compression": "^1.8.0",
+    "cross-env": "^7.0.3",
     "framer-motion": "^11.3.21",
-    "helmet": "^8.1.0",
     "lodash": "^4.17.21",
-    "mongodb": "^6.15.0",
-    "motion": "^12.4.2",
+    "lucide-react": "^0.487.0",
     "next": "^14.2.24",
     "react": "^18",
     "react-dom": "^18",
@@ -28,12 +28,9 @@
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
-    "@types/compression": "^1.7.5",
     "@types/cors": "^2.8.17",
-    "@types/helmet": "^0.0.48",
     "@types/lodash": "^4.17.16",
     "@types/node": "^20",
-    "@types/nodemailer": "^6.4.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.20",
@@ -42,5 +39,8 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

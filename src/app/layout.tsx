@@ -1,13 +1,19 @@
 import type { Metadata } from "next";
-import { Inter, Calistoga } from "next/font/google";
+import { Inter, Noto_Sans_JP, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { twMerge } from "tailwind-merge";
+import { LanguageProvider } from '@/contexts/LanguageContext';
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-const calistoga = Calistoga({
+const notoSansJP = Noto_Sans_JP({ 
+  subsets: ["latin"],
+  variable: "--font-jp",
+  weight: ["400", "500", "700"]
+});
+const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-serif",
-  weight: "400",
+  weight: ["400", "500", "600", "700"]
 });
 
 export const metadata: Metadata = {
@@ -25,11 +31,14 @@ export default function RootLayout({
       <body
         className={twMerge(
           inter.className,
-          // Remove calistoga.className here if you want the whole site to use Inter.
-          "bg-gray-900 text-white antialiased font-sans" // This applies the Inter font using --font-sans.
+          notoSansJP.variable,
+          playfair.variable,
+          "bg-gray-900 text-white antialiased font-sans"
         )}
       >
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );
