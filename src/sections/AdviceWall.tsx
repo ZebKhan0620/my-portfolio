@@ -396,7 +396,6 @@ export default function AdviceWall() {
     }
   };
 
-  // Assign a display style to each advice entry based on ID
   const getDisplayStyle = (id: string): string => {
     const styles = ['card', 'lcd', 'neon', 'ticker', 'paper', 'terminal', 'gradient', 'glass'];
     const lastChar = id.slice(-1);
