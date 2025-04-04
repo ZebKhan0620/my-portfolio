@@ -413,7 +413,6 @@ export default function AdviceWall() {
           description={t('adviceWall.description')}
         />
 
-        {/* Submission form */}
         <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl xs:rounded-2xl p-4 xs:p-6 sm:p-8 border border-white/10 shadow-xl max-w-2xl mx-auto mb-12 xs:mb-16">
           <h2 className="text-lg xs:text-xl sm:text-2xl font-medium mb-3 xs:mb-4">{t('advice.form.title')}</h2>
           <form ref={formRef} onSubmit={handleSubmit} className="space-y-3 xs:space-y-4">
